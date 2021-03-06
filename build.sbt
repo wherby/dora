@@ -11,11 +11,11 @@ releaseEarlyWith in Global := SonatypePublisher
 pgpPublicRing := file("./travis/local.pubring.asc")
 pgpSecretRing := file("./travis/local.secring.asc")
 
-lazy val doradillaCore = (project in file("doradilla-core"))
+lazy val dora = (project in file("dora"))
   .settings(commonSettings: _*)
   .enablePlugins(JavaAppPackaging)
   .settings(
-    name := "doradilla-core",
+    name := "dora",
     publishArtifact := true,
   )
 
@@ -26,8 +26,8 @@ lazy val root = (project in file("."))
     name := "doradilla",
     publishArtifact := false,
     mainClass  := Some("io.github.wherby.doradilla.app.SimpleClusterApp"),//object with,
-  ).aggregate(doradillaCore)
-  .dependsOn(doradillaCore)
+  ).aggregate(dora)
+  .dependsOn(dora)
 
 // Define a special test task which does not fail when any test fails,
 // so sequential tasks (like SonarQube analysis) will be performed no matter the test result.

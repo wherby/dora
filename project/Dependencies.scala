@@ -20,8 +20,6 @@ object Dependencies {
     // -- Akka --
     "com.typesafe.akka" %% "akka-actor"   % akka,
     "com.typesafe.akka" %% "akka-slf4j"   % akka,
-    "com.typesafe.akka" %% "akka-cluster" % akka,
-    "com.typesafe.akka" %% "akka-cluster-tools" % akka,
     "com.typesafe.akka" %% "akka-testkit" % akka,
     // https://mvnrepository.com/artifact/org.scalatest/scalatest
     "org.scalatest" %% "scalatest" % "3.1.0" % Test,
@@ -43,13 +41,13 @@ object Dependencies {
     ),
     libraryDependencies ++= commonDependencies,
     maintainer := "wherby <187225577@qq.com>",
-    licenses := Seq("Apache License 2.0" -> url("https://github.com/wherby/doradilla/blob/master/LICENSE")),
+    licenses := Seq("Apache License 2.0" -> url("https://github.com/wherby/dora/blob/master/LICENSE")),
     //useGpg := true,
-    homepage := Some(url("https://github.com/wherby/doradilla")),
+    homepage := Some(url("https://github.com/wherby/dora")),
     scmInfo := Some(
       ScmInfo(
-        url("https://github.com/wherby/doradilla.git"),
-        "scm:git@github.com:wherby/doradilla.git"
+        url("https://github.com/wherby/dora.git"),
+        "scm:git@github.com:wherby/dora.git"
       )
     ),
     developers := List(
