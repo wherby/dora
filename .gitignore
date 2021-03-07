@@ -16,3 +16,4 @@ local.*
 
 ## VScode
 **/*.DS_Store
+local.*
