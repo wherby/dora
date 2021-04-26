@@ -14,9 +14,9 @@ import akka.pattern.ask
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
-  * For doradilla.back in doradilla
-  * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/12/14
-  */
+ * For doradilla.back in doradilla
+ * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/12/14
+ */
 trait BatchProcessor {
   this: BackendServer.type =>
   def startProcessBatchCommand(batchRequests: Seq[JobMsg],
@@ -40,4 +40,4 @@ trait BatchProcessor {
     }
   }
 }
-*/
+ */

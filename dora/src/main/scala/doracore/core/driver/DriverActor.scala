@@ -12,11 +12,11 @@ import doracore.core.queue.QueueActor
 import doracore.core.queue.QueueActor.{FetchTask, RequestListResponse}
 import doracore.util.{CNaming, MyUUID}
 
-/**
-  * For doradilla.driver in doradilla
+/** For doradilla.driver in doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/3/30
   */
-class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boolean] = Some(true)) extends BaseActor {
+class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boolean] = Some(true))
+    extends BaseActor {
   var fsmToBeDecrease = 0
   val queueActor = queue match {
     case Some(queue) => queue
@@ -29,7 +29,8 @@ class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boo
   }
 
   private def createOneFSMActor() = {
-    val fsmActor: ActorRef = context.actorOf(DriverActor.fsmProps, CNaming.timebasedName("fsmActor"))
+    val fsmActor: ActorRef =
+      context.actorOf(DriverActor.fsmProps, CNaming.timebasedName("fsmActor"))
     fsmActor ! SetDriver(self)
   }
 
@@ -40,7 +41,7 @@ class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boo
   def handleRequest(jobRequestOrg: JobRequest) = {
     val jobRequest = jobRequestOrg.jobMetaOpt match {
       case Some(_) => jobRequestOrg
-      case _ => jobRequestOrg.copy(jobMetaOpt = Some(JobMeta(MyUUID.getUUIDString())))
+      case _       => jobRequestOrg.copy(jobMetaOpt = Some(JobMeta(MyUUID.getUUIDString())))
     }
     val proxyActor = createProxy(CNaming.timebasedName(jobRequest.taskMsg.operation))
     log.info(s"{${jobRequest.jobMetaOpt}} is handled by proxy $proxyActor")
@@ -49,10 +50,10 @@ class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boo
   }
 
   def hundleFetchJob() = {
-    if(fsmToBeDecrease > 0){
-      fsmToBeDecrease = fsmToBeDecrease -1
+    if (fsmToBeDecrease > 0) {
+      fsmToBeDecrease = fsmToBeDecrease - 1
       sender() ! FSMDecrease(1)
-    }else{
+    } else {
       queueActor ! FetchTask(1, sender())
     }
   }
@@ -73,22 +74,22 @@ class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boo
 
   def handleFSMControl(fsmControl: FSMControl) = {
     fsmControl match {
-      case FSMIncrease(num) if (num > 0  && num < 1000)=> for (_ <- 1 to num) {
-        log.info("Increase FSMActor.")
-        createOneFSMActor()
-      }
+      case FSMIncrease(num) if (num > 0 && num < 1000) =>
+        for (_ <- 1 to num) {
+          log.info("Increase FSMActor.")
+          createOneFSMActor()
+        }
       case FSMDecrease(num) => fsmToBeDecrease = fsmToBeDecrease + num
     }
   }
 
-
   override def receive: Receive = LoggingReceive {
-    case jobRequest: JobRequest => handleRequest(jobRequest)
-    case fetchJob: FetchJob => hundleFetchJob()
+    case jobRequest: JobRequest                   => handleRequest(jobRequest)
+    case fetchJob: FetchJob                       => hundleFetchJob()
     case requestListResponse: RequestListResponse => hundleRequestListResponse(requestListResponse)
-    case registToDriver: RegistToDriver => handleRegister(registToDriver)
-    case _: FetchQueue => handleFetchQueue()
-    case fsmControl: FSMControl => handleFSMControl(fsmControl)
+    case registToDriver: RegistToDriver           => handleRegister(registToDriver)
+    case _: FetchQueue                            => handleFetchQueue()
+    case fsmControl: FSMControl                   => handleFSMControl(fsmControl)
   }
 }
 

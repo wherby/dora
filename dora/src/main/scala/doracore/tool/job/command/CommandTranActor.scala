@@ -3,12 +3,19 @@ package doracore.tool.job.command
 import akka.actor.{ActorRef, Props}
 import doracore.base.BaseActor
 import doracore.core.msg.Job.{JobRequest, WorkerInfo}
-import doracore.core.msg.TranslationMsg.{TranslatedTask, TranslationDataError, TranslationOperationError}
-import doracore.tool.job.command.CommandTranActor.{CommandOperation, CommandRequest, SimpleCommandInit}
+import doracore.core.msg.TranslationMsg.{
+  TranslatedTask,
+  TranslationDataError,
+  TranslationOperationError
+}
+import doracore.tool.job.command.CommandTranActor.{
+  CommandOperation,
+  CommandRequest,
+  SimpleCommandInit
+}
 import play.api.libs.json.Json
 
-/**
-  * For doradilla.tool.job.command in Doradilla
+/** For doradilla.tool.job.command in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/13
   */
 class CommandTranActor extends BaseActor {
@@ -19,7 +26,11 @@ class CommandTranActor extends BaseActor {
       case CommandOperation.SimpleCommand =>
         Json.parse(jobRequest.taskMsg.data.toString).asOpt[CommandRequest] match {
           case Some(commandRequest) =>
-            sender() ! WorkerInfo(classOf[CommandWorkerActor].getName, None, Some(jobRequest.replyTo))
+            sender() ! WorkerInfo(
+              classOf[CommandWorkerActor].getName,
+              None,
+              Some(jobRequest.replyTo)
+            )
             sender() ! TranslatedTask(SimpleCommandInit(commandRequest, jobRequest.replyTo))
           case _ => sender() ! TranslationDataError(Some(s" ${jobRequest.taskMsg.data}"))
         }
@@ -27,8 +38,8 @@ class CommandTranActor extends BaseActor {
     }
   }
 
-  override def receive: Receive = {
-    case jobRequest: JobRequest => translateCommandRequest(jobRequest)
+  override def receive: Receive = { case jobRequest: JobRequest =>
+    translateCommandRequest(jobRequest)
   }
 }
 

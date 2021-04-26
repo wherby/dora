@@ -1,6 +1,7 @@
 package doracore
 import akka.actor.ActorSystem
 import doracore.vars.ConstVars
+import doradilla.back.BackendServer
 //import doradilla.back.BackendServer
 import doradilla.conf.DoraConf
 
@@ -14,17 +15,16 @@ import doradilla.conf.DoraConf
   lazy val  actorSystemOpt:ActorSystem = getActorSystem
   var count = 0
   def  getActorSystem()={
-    ActorSystem()
-//        val system = BackendServer.createBackendServer(Some(ConstVars.DoraPort))
-//        BackendServer.backendServerMap +=(ConstVars.DoraPort->system)
-//        system.registFSMActor()
-//        system.actorSystemOpt.get
+        val system = BackendServer.createBackendServer(Some(ConstVars.DoraPort))
+        BackendServer.backendServerMap +=(ConstVars.DoraPort->system)
+        system.registFSMActor()
+        system.actorSystemOpt.get
 }
 
   def shutdowmSystem()={
     count = count -1
     if(count == 0){
-     //actorSystem.get.terminate()
+       actorSystemOpt.terminate()
     }
   }
 }

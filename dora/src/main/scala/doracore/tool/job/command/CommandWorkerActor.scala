@@ -6,15 +6,18 @@ import doracore.tool.job.command.CommandTranActor.SimpleCommandInit
 import doracore.tool.job.worker.WorkerActor
 import doracore.util.CommandServiceProcessor
 
-/**
-  * For doradilla.tool.job.command in Doradilla
+/** For doradilla.tool.job.command in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/13
   */
 class CommandWorkerActor extends WorkerActor {
-  def handleSimpleCommandInit(simpleCommandInit: SimpleCommandInit):Unit = {
-    futureResultOpt = Some(CommandServiceProcessor.runCommand(simpleCommandInit.commandRequest.command))
+  def handleSimpleCommandInit(simpleCommandInit: SimpleCommandInit): Unit = {
+    futureResultOpt = Some(
+      CommandServiceProcessor.runCommand(simpleCommandInit.commandRequest.command)
+    )
     replyToOpt = Some(simpleCommandInit.repleyTo)
-    cancelableSchedulerOpt = Some(context.system.scheduler.schedule(tickTime, tickTime, this.self, TickMsg()))
+    cancelableSchedulerOpt = Some(
+      context.system.scheduler.schedule(tickTime, tickTime, this.self, TickMsg())
+    )
   }
 
   override def receive: Receive = super.receive orElse {

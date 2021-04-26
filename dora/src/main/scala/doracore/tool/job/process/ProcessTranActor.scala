@@ -3,27 +3,33 @@ package doracore.tool.job.process
 import akka.actor.{ActorRef, Props}
 import doracore.base.BaseActor
 import doracore.core.msg.Job.{JobRequest, WorkerInfo}
-import doracore.core.msg.TranslationMsg.{TranslatedTask, TranslationDataError, TranslationOperationError}
-import doracore.tool.job.process.ProcessTranActor.{ProcessOperation, SimpleProcessFutureInit, SimpleProcessInit}
+import doracore.core.msg.TranslationMsg.{
+  TranslatedTask,
+  TranslationDataError,
+  TranslationOperationError
+}
+import doracore.tool.job.process.ProcessTranActor.{
+  ProcessOperation,
+  SimpleProcessFutureInit,
+  SimpleProcessInit
+}
 import doracore.util.ProcessService.ProcessCallMsg
 
-
-/**
-  * For doradilla.tool.job.process in Doradilla
+/** For doradilla.tool.job.process in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/22
   */
-class ProcessTranActor extends BaseActor{
-  def translateProcessRequest(jobRequest: JobRequest) ={
+class ProcessTranActor extends BaseActor {
+  def translateProcessRequest(jobRequest: JobRequest) = {
     ProcessOperation.withDefaultName(jobRequest.taskMsg.operation) match {
       case ProcessOperation.SimpleProcess =>
-        safeTranslate(jobRequest,processSimpleProcess)
+        safeTranslate(jobRequest, processSimpleProcess)
       case ProcessOperation.SimpleProcessFuture =>
-        safeTranslate(jobRequest,processSimpleProcessFuture)
-      case _=> sender() ! TranslationOperationError(Some(jobRequest.taskMsg.operation))
+        safeTranslate(jobRequest, processSimpleProcessFuture)
+      case _ => sender() ! TranslationOperationError(Some(jobRequest.taskMsg.operation))
     }
   }
 
-  private def safeTranslate(jobRequest: JobRequest,transFun: JobRequest => Unit) = {
+  private def safeTranslate(jobRequest: JobRequest, transFun: JobRequest => Unit) = {
     try {
       log.debug(s"Start running reqeust for: $jobRequest")
       transFun(jobRequest)
@@ -44,16 +50,15 @@ class ProcessTranActor extends BaseActor{
     sender() ! TranslatedTask(SimpleProcessInit(msg, jobRequest.replyTo))
   }
 
-  override def receive: Receive = {
-    case jobRequest: JobRequest=> translateProcessRequest(jobRequest)
+  override def receive: Receive = { case jobRequest: JobRequest =>
+    translateProcessRequest(jobRequest)
   }
 }
 
-
-object ProcessTranActor{
+object ProcessTranActor {
   val processTranActorProps = Props(new ProcessTranActor())
 
-  object ProcessOperation extends  Enumeration{
+  object ProcessOperation extends Enumeration {
     type ProcessOperation = Value
 
     val SimpleProcess, SimpleProcessFuture, Unknown = Value

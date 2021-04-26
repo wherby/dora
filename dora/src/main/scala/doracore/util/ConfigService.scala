@@ -2,8 +2,7 @@ package doracore.util
 
 import com.typesafe.config.{Config, ConfigException}
 
-/**
-  * For doradilla.util in Doradilla
+/** For doradilla.util in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/9
   */
 object ConfigService {
@@ -17,14 +16,15 @@ object ConfigService {
   }
 
   def getIntOpt(config: Config, path: String): Option[Int] = {
-    getStringOpt(config,path) match {
-      case Some(str) => try {
-        Some(str.toInt)
-      } catch {
-        case e: Throwable =>
-          None
-      }
-      case _ =>None
+    getStringOpt(config, path) match {
+      case Some(str) =>
+        try {
+          Some(str.toInt)
+        } catch {
+          case e: Throwable =>
+            None
+        }
+      case _ => None
     }
   }
 

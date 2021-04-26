@@ -3,15 +3,16 @@ package doracore.util
 import akka.event.slf4j.Logger
 import doracore.core.msg.Job.JobStatus.JobStatus
 
-
-/**
-  * For doradilla.util in Doradilla
+/** For doradilla.util in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/22
   */
 object ProcessService extends GetProcessFutureResult with GetProcessResult {
   var classLoaderOpt: Option[ClassLoader] = None
 
-  def noImplementNameToClassOpt(className: String, classLoaderOpt: Option[ClassLoader]): Option[Class[_]] = {
+  def noImplementNameToClassOpt(
+      className: String,
+      classLoaderOpt: Option[ClassLoader]
+  ): Option[Class[_]] = {
     Logger.apply(this.getClass.toString).error("Not implement the name to class function")
     None
   }
@@ -21,7 +22,7 @@ object ProcessService extends GetProcessFutureResult with GetProcessResult {
   def getProcessMethod(processCallMsg: ProcessCallMsg): ProcessCallMsg => Either[AnyRef, AnyRef] = {
     processCallMsg.instOpt match {
       case Some(instance) => callMethodForObject
-      case _ => callProcess
+      case _              => callProcess
     }
   }
 
@@ -42,10 +43,10 @@ object ProcessService extends GetProcessFutureResult with GetProcessResult {
           Some(Class.forName(processCallMsg.clazzName))
         case _=>None
       }
-      */
+       */
       aOpt match {
         case Some(a) =>
-          val instance = a.newInstance()
+          val instance          = a.newInstance()
           val processCallMsgNew = processCallMsg.copy(instOpt = Some(instance))
           callMethodForObject(processCallMsgNew)
         case _ =>
@@ -59,10 +60,11 @@ object ProcessService extends GetProcessFutureResult with GetProcessResult {
     }
   }
 
-
   def callMethodForObject(processCallMsg: ProcessCallMsg): Either[Throwable, AnyRef] = {
     val instance = processCallMsg.instOpt.get
-    val methodOpt = instance.getClass.getMethods.filter(method => method.getName == processCallMsg.methodName).headOption
+    val methodOpt = instance.getClass.getMethods
+      .filter(method => method.getName == processCallMsg.methodName)
+      .headOption
     methodOpt match {
       case Some(method) =>
         Right(method.invoke(instance, processCallMsg.paras: _*))
@@ -70,7 +72,12 @@ object ProcessService extends GetProcessFutureResult with GetProcessResult {
     }
   }
 
-  case class ProcessCallMsg(clazzName: String, methodName: String, paras: Array[AnyRef], instOpt: Option[Any] = None)
+  case class ProcessCallMsg(
+      clazzName: String,
+      methodName: String,
+      paras: Array[AnyRef],
+      instOpt: Option[Any] = None
+  )
 
   case class ProcessResult(jobStatus: JobStatus, result: Any)
 

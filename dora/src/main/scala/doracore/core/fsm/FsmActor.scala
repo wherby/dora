@@ -15,31 +15,33 @@ import doracore.util.{ConfigService, DeployService}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
-/**
-  * For doradilla.fsm in doradilla
+
+/** For doradilla.fsm in doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/3/24
   */
 class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
   startWith(Idle, Uninitialized)
-  var driverActor: ActorRef = null
-  var childActorOpt: Option[ActorRef] = None
-  var jobMetaOpt: Option[JobMeta] = None
+  var driverActor: ActorRef                       = null
+  var childActorOpt: Option[ActorRef]             = None
+  var jobMetaOpt: Option[JobMeta]                 = None
   var cancelableSchedulerOpt: Option[Cancellable] = None
-  val ex =scala.concurrent.ExecutionContext.Implicits.global
-  lazy val timeoutConf:Option[Int] =  ConfigService.getIntOpt(context.system.settings.config, "doradilla.fsm.timeout")
-  var replyToActor:Option[ActorRef] = None
+  val ex                                          = scala.concurrent.ExecutionContext.Implicits.global
+  lazy val timeoutConf: Option[Int] =
+    ConfigService.getIntOpt(context.system.settings.config, "doradilla.fsm.timeout")
+  var replyToActor: Option[ActorRef] = None
 
   def hundleRequestList(requestList: RequestList) = {
     if (requestList.requests.length > 0) {
       setTimeOutCheck()
-      requestList.requests.map {
-        request =>
-          replyToActor = Some(request.replyTo)
-          jobMetaOpt =request.jobMetaOpt
-          log.info(s"{${request.jobMetaOpt}} is started in fsm worker, and will be handled by {${request.tranActor}}")
-          log.debug(s"${request.taskMsg} is handled in FSM actor, the task will be start soon")
-          request.tranActor ! request
-          request.replyTo ! JobStatus.Scheduled
+      requestList.requests.map { request =>
+        replyToActor = Some(request.replyTo)
+        jobMetaOpt = request.jobMetaOpt
+        log.info(
+          s"{${request.jobMetaOpt}} is started in fsm worker, and will be handled by {${request.tranActor}}"
+        )
+        log.debug(s"${request.taskMsg} is handled in FSM actor, the task will be start soon")
+        request.tranActor ! request
+        request.replyTo ! JobStatus.Scheduled
       }
     }
   }
@@ -47,17 +49,18 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
   def endChildActor() = {
     log.info(s"$jobMetaOpt is end")
     jobMetaOpt = None
-    childActorOpt.map {
-      childActor => childActor ! PoisonPill
+    childActorOpt.map { childActor =>
+      childActor ! PoisonPill
     }
     childActorOpt = None
   }
 
-  def setTimeOutCheck()={
-    timeoutConf.map{
-      timeout => val delay:FiniteDuration = timeout.seconds
-        log.debug(s"set timeout ot $timeout with $delay")
-        cancelableSchedulerOpt = Some(context.system.scheduler.scheduleOnce(delay,self,FSMTimeout("FSMtimeout"))(ex))
+  def setTimeOutCheck() = {
+    timeoutConf.map { timeout =>
+      val delay: FiniteDuration = timeout.seconds
+      log.debug(s"set timeout ot $timeout with $delay")
+      cancelableSchedulerOpt =
+        Some(context.system.scheduler.scheduleOnce(delay, self, FSMTimeout("FSMtimeout"))(ex))
     }
   }
 
@@ -82,27 +85,26 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
     }
   }
 
-  onTransition {
-    case Active -> Idle =>
-      CleanCancelScheduler()
-      endChildActor()
-      driverActor ! FetchJob()
+  onTransition { case Active -> Idle =>
+    CleanCancelScheduler()
+    endChildActor()
+    driverActor ! FetchJob()
   }
 
   private def CleanCancelScheduler() = {
-    cancelableSchedulerOpt.map({
-      cancelableScheduler => cancelableScheduler.cancel()
-        cancelableSchedulerOpt = None
+    cancelableSchedulerOpt.map({ cancelableScheduler =>
+      cancelableScheduler.cancel()
+      cancelableSchedulerOpt = None
     })
   }
 
   when(Active) {
     case Event(jobEnd: JobEnd, task: Task) =>
-      if(jobEnd.requestMsg.jobMetaOpt == jobMetaOpt){
+      if (jobEnd.requestMsg.jobMetaOpt == jobMetaOpt) {
         println(jobEnd.requestMsg.jobMetaOpt)
         println(jobMetaOpt)
         goto(Idle) using (Uninitialized)
-      }else{
+      } else {
         stay()
       }
     case Event(workerInfo: WorkerInfo, _) =>
@@ -112,32 +114,35 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
       }
       stay()
     case Event(translatedTask: TranslatedTask, _) => {
-      childActorOpt.map {
-        childActor => childActor ! translatedTask.task
+      childActorOpt.map { childActor =>
+        childActor ! translatedTask.task
       }
       stay()
     }
   }
 
-
   whenUnhandled {
-    case Event(_: FSMTimeout,_) =>
+    case Event(_: FSMTimeout, _) =>
       log.error("FSM Timeout and reset to uninitialized state..")
       log.error(s"$jobMetaOpt will need be cleaned by user.")
-      val result = JobResult(JobStatus.TimeOut, ProcessResult(JobStatus.Failed, new Exception("timeout")))
-      replyToActor.map{
-        replyTo=>
-          replyTo ! result
+      val result =
+        JobResult(JobStatus.TimeOut, ProcessResult(JobStatus.Failed, new Exception("timeout")))
+      replyToActor.map { replyTo =>
+        replyTo ! result
       }
       goto(Idle) using (Uninitialized)
-    case Event(_: ResetFsm, _)=>
+    case Event(_: ResetFsm, _) =>
       log.info("Reset fsm actor..")
       goto(Idle) using (Uninitialized)
-    case Event(queryChild: QueryChild, _) => val childInfo = ChildInfo(context.self.path.toString, getChildren(), System.currentTimeMillis() / 1000)
+    case Event(queryChild: QueryChild, _) =>
+      val childInfo =
+        ChildInfo(context.self.path.toString, getChildren(), System.currentTimeMillis() / 1000)
       queryChild.actorRef ! childInfo
       stay()
-    case Event(fsmDecrease: FSMDecrease, _) =>{
-      log.info(s" Receive decrease msg : $fsmDecrease from : $sender(). This FSMActor will be killed.")
+    case Event(fsmDecrease: FSMDecrease, _) => {
+      log.info(
+        s" Receive decrease msg : $fsmDecrease from : $sender(). This FSMActor will be killed."
+      )
       driverActor = null
       self ! PoisonPill
       stay()
@@ -152,7 +157,6 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
   }
 
 }
-
 
 object FsmActor {
   val fsmActorProps = Props(new FsmActor())
@@ -182,7 +186,6 @@ object FsmActor {
   // SendBack child Actor to TranslationActor
   case class TranslatedActor(child: ActorRef)
 
-  case class FSMTimeout(info :String)
-
+  case class FSMTimeout(info: String)
 
 }

@@ -37,3 +37,4 @@ ciTests := {
   // Capture the test result
   val testResult = (test in Test).result.value
 }
+coverageEnabled in Test := true

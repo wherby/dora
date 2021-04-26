@@ -1,4 +1,3 @@
-/*
 package app
 
 import doracore.ActorTestClass
@@ -11,8 +10,7 @@ import org.scalatest.Matchers
 
 import scala.concurrent.Await
 
-/**
-  * For app in doradilla
+/** For app in doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/12/14
   */
 class NamedJobRunnerSpec extends ActorTestClass with Matchers {
@@ -21,7 +19,6 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
     ProcessService.nameToClassOpt = ProcessServiceSpec.safeProcessServiceNameToClassOpt
   }
 
-
   import scala.concurrent.ExecutionContext.Implicits.global
 
   val timeout = ConstVars.timeout1S * 4
@@ -29,9 +26,9 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
     "start new driver when name is different" in {
       val job1 = TestVars.sleepProcessJob
       BackendServer.runNamedProcessCommand(job1, "job11")
-      val job2 = TestVars.processJob
+      val job2         = TestVars.processJob
       val resultFuture = BackendServer.runNamedProcessCommand(job2, "job12")
-      val result = Await.ready(resultFuture, timeout)
+      val result       = Await.ready(resultFuture, timeout)
       println(result)
     }
 
@@ -42,7 +39,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
         val job2 = TestVars.processJob
         BackendServer.changeFSMForNamedJob("job2", -1)
         val resultFuture = BackendServer.runNamedProcessCommand(job2, "job2")
-        var timeOut = false
+        var timeOut      = false
         try {
           val result = Await.ready(resultFuture, timeout)
           println(result)
@@ -56,13 +53,15 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
     }
 
     "use same driver when name same" in {
-      val job1 = TestVars.sleepProcessJob
+      println("Start same driver test")
+      val job1          = TestVars.sleepProcessJob
       val result1Future = BackendServer.runNamedProcessCommand(job1, "job3")
-      val job2 = TestVars.processJob
-      val resultFuture = BackendServer.runNamedProcessCommand(job2, "job3")
-      var timeOut = false
+      val job2          = TestVars.processJob
+      val resultFuture  = BackendServer.runNamedProcessCommand(job2, "job3")
+      var timeOut       = false
 
       try {
+        Await.ready(result1Future, timeout)
         val result = Await.ready(resultFuture, timeout)
         println(result)
       } catch {
@@ -70,17 +69,17 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
           timeOut = true
           println(exception)
       }
+      println("end same driver test")
       timeOut shouldBe (true)
     }
-
 
     "use same driver when name same with increased fsm " in {
       val job1 = TestVars.sleepProcessJob
       BackendServer.changeFSMForNamedJob("job4", 1)
       val result1Future = BackendServer.runNamedProcessCommand(job1, "job4")
-      val job2 = TestVars.processJob
-      val resultFuture = BackendServer.runNamedProcessCommand(job2, "job4")
-      var timeOut = false
+      val job2          = TestVars.processJob
+      val resultFuture  = BackendServer.runNamedProcessCommand(job2, "job4")
+      var timeOut       = false
 
       try {
         val result = Await.ready(resultFuture, timeout)
@@ -94,4 +93,3 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
     }
   }
 }
-*/

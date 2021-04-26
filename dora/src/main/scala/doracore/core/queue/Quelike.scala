@@ -1,7 +1,6 @@
 package doracore.core.queue
 
-/**
-  * For doradilla.core.queue in Doradilla
+/** For doradilla.core.queue in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/6/11
   */
 trait Quelike[T] {

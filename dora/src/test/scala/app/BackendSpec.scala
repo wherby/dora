@@ -1,4 +1,4 @@
-/*
+
 package app
 
 import doracore.ActorTestClass
@@ -66,4 +66,4 @@ class BackendSpec extends ActorTestClass with Matchers {
 
   }
 }
-*/
+
