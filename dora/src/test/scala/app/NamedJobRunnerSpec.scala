@@ -1,7 +1,9 @@
 package app
 
 import doracore.ActorTestClass
-import doracore.core.msg.Job.JobMsg
+import doracore.core.msg.Job.{JobMsg, JobStatus}
+import doracore.core.msg.Job.JobStatus.JobStatus
+import doracore.util.ProcessService.ProcessResult
 import doracore.util.{ProcessService, ProcessServiceSpec}
 import doracore.vars.ConstVars
 import doradilla.back.BackendServer
@@ -61,8 +63,10 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
       var timeOut       = false
 
       try {
-        Await.ready(result1Future, timeout)
-        val result = Await.ready(resultFuture, timeout)
+        val result2 = Await.result(result1Future, timeout)
+        result2.result.asInstanceOf[ProcessResult].jobStatus == JobStatus.Failed
+        timeOut = true //For the execution failed for first
+        val result = Await.result(resultFuture, timeout)
         println(result)
       } catch {
         case exception: Exception =>
