@@ -1,4 +1,3 @@
-
 package app
 
 import doracore.ActorTestClass
@@ -13,8 +12,7 @@ import org.scalatest.Matchers
 import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 
-/**
-  * For app in Doradilla
+/** For app in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/6/23
   */
 class BackendSpec extends ActorTestClass with Matchers {
@@ -26,12 +24,11 @@ class BackendSpec extends ActorTestClass with Matchers {
 
     "start and run command " in {
       ProcessService.nameToClassOpt = ProcessServiceSpec.safeProcessServiceNameToClassOpt
-      val msg = TestVars.processCallMsgTest
+      val msg        = TestVars.processCallMsgTest
       val processJob = JobMsg("SimpleProcess", msg)
-      val res = BackendServer.runProcessCommand(processJob).map {
-        res =>
-          println(res)
-          assert(true)
+      val res = BackendServer.runProcessCommand(processJob).map { res =>
+        println(res)
+        assert(true)
       }
       Await.ready(res, ConstVars.timeout1S * 10)
       //backendServer.actorSystemOpt.get.terminate()
@@ -39,31 +36,28 @@ class BackendSpec extends ActorTestClass with Matchers {
 
     "start the command and qurey result " in {
       ProcessService.nameToClassOpt = ProcessServiceSpec.safeProcessServiceNameToClassOpt
-      val msg = TestVars.processCallMsgTest
-      val processJob = JobMsg("SimpleProcess", msg)
+      val msg          = TestVars.processCallMsgTest
+      val processJob   = JobMsg("SimpleProcess", msg)
       val receiveActor = BackendServer.startProcessCommand(processJob).get
-      val res= BackendServer.queryProcessResult(receiveActor).map {
-        result =>
-          (result.result.asInstanceOf[ProcessResult]).jobStatus shouldBe (JobStatus.Finished)
-          println(result)
+      val res = BackendServer.queryProcessResult(receiveActor).map { result =>
+        (result.result.asInstanceOf[ProcessResult]).jobStatus shouldBe (JobStatus.Finished)
+        println(result)
       }
-      Await.ready(res, ConstVars.timeout1S*4)
+      Await.ready(res, ConstVars.timeout1S * 4)
     }
 
     "start the command and qurey result without implement class reflector " in {
       ProcessService.nameToClassOpt = noImplementNameToClassOpt
-      val msg = TestVars.processCallMsgTest
-      val processJob = JobMsg("SimpleProcess", msg)
+      val msg          = TestVars.processCallMsgTest
+      val processJob   = JobMsg("SimpleProcess", msg)
       val receiveActor = BackendServer.startProcessCommand(processJob).get
-      val res= BackendServer.queryProcessResult(receiveActor).map {
-        result =>
-          (result.result.asInstanceOf[ProcessResult]).jobStatus shouldBe (JobStatus.Failed)
-          println(result)
+      val res = BackendServer.queryProcessResult(receiveActor).map { result =>
+        (result.result.asInstanceOf[ProcessResult]).jobStatus shouldBe (JobStatus.Failed)
+        println(result)
       }
 
-      Await.ready(res, ConstVars.timeout1S*4)
+      Await.ready(res, ConstVars.timeout1S * 4)
     }
 
   }
 }
-

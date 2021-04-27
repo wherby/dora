@@ -3,18 +3,17 @@ import com.typesafe.sbt.SbtPgp.autoImportImpl.useGpg
 import sbt.Keys._
 import sbt.{url, _}
 
-/**
-  * For  in doradilla
+/** For  in doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/3/31
   */
 object Dependencies {
-  lazy val akka = "2.6.5"
-  lazy val scala212= "2.12.7"
-  lazy val scala213 ="2.13.1"
-  lazy val supportedScalaVersion = List(scala212,scala213)
+  lazy val akka                  = "2.6.14"
+  lazy val scala212              = "2.12.7"
+  lazy val scala213              = "2.13.1"
+  lazy val supportedScalaVersion = List(scala212, scala213)
 
   /* dependencies */
-  val commonDependencies = Seq (
+  val commonDependencies = Seq(
     // -- Logging --
     "ch.qos.logback" % "logback-classic" % "1.2.3",
     // -- Akka --
@@ -27,21 +26,22 @@ object Dependencies {
     "com.typesafe.play" %% "play-json" % "2.9.0",
     // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
     "com.datastax.cassandra" % "cassandra-driver-core" % "4.0.0",
-    "io.netty" % "netty-handler" % "4.1.42.Final"
+    "io.netty"               % "netty-handler"         % "4.1.42.Final"
   )
-  
 
   lazy val commonSettings = Seq(
     organization := "io.github.wherby",
     crossScalaVersions := supportedScalaVersion,
-    version := "1.8.0.3",
+    version := "1.8.0.5",
     resolvers ++= Seq(
       Resolver.sonatypeRepo("releases"),
       Resolver.sonatypeRepo("snapshots")
     ),
     libraryDependencies ++= commonDependencies,
     maintainer := "wherby <187225577@qq.com>",
-    licenses := Seq("Apache License 2.0" -> url("https://github.com/wherby/dora/blob/master/LICENSE")),
+    licenses := Seq(
+      "Apache License 2.0" -> url("https://github.com/wherby/dora/blob/master/LICENSE")
+    ),
     //useGpg := true,
     homepage := Some(url("https://github.com/wherby/dora")),
     scmInfo := Some(
@@ -52,10 +52,10 @@ object Dependencies {
     ),
     developers := List(
       Developer(
-        id    = "wherby",
-        name  = "Tao Zhou",
+        id = "wherby",
+        name = "Tao Zhou",
         email = "187225577@qq.com",
-        url   = url("https://github.com/wherby")
+        url = url("https://github.com/wherby")
       )
     ),
     publishTo := {
@@ -69,13 +69,14 @@ object Dependencies {
 
   lazy val settings = Seq(
     parallelExecution in Test := false,
-    fork in run := false,   //###If the value is true, Ctrl + C may only kill JVM and not kill Akka. Set to false to kill togother.  Set to true for publishing in poor network.
+    fork in run := false, //###If the value is true, Ctrl + C may only kill JVM and not kill Akka. Set to false to kill togother.  Set to true for publishing in poor network.
     // These options will be used for *all* versions.
     scalacOptions ++= Seq(
       "-deprecation",
       "-unchecked",
-      "-encoding", "UTF-8",
-      "-Xlint",
+      "-encoding",
+      "UTF-8",
+      "-Xlint"
     )
   )
 }

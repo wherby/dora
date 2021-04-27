@@ -85,7 +85,7 @@ class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boo
 
   override def receive: Receive = LoggingReceive {
     case jobRequest: JobRequest                   => handleRequest(jobRequest)
-    case fetchJob: FetchJob                       => hundleFetchJob()
+    case _: FetchJob                              => hundleFetchJob()
     case requestListResponse: RequestListResponse => hundleRequestListResponse(requestListResponse)
     case registToDriver: RegistToDriver           => handleRegister(registToDriver)
     case _: FetchQueue                            => handleFetchQueue()

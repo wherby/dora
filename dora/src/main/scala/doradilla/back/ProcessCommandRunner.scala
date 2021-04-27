@@ -27,7 +27,7 @@ trait ProcessCommandRunner
       timeout: Timeout = ConstVars.longTimeOut,
       priority: Option[Int] = None
   )(implicit ex: ExecutionContext): Future[JobResult] = {
-    val backendServer = getBackendServer()
+    val backendServer = getDefaultBackendServer()
     val resultOpt =
       for (
         driverService      <- backendServer.getActorProxy(Const.driverServiceName);
@@ -50,7 +50,7 @@ trait ProcessCommandRunner
       backendServerOpt: Option[BackendServer] = None,
       priority: Option[Int] = None
   )(implicit ex: ExecutionContext): Option[ActorRef] = {
-    val backendServer = getBackendServer()
+    val backendServer = getDefaultBackendServer()
     for (
       driverService      <- backendServer.getActorProxy(Const.driverServiceName);
       processTranService <- backendServer.getActorProxy(Const.procssTranServiceName)
