@@ -1,0 +1,24 @@
+default_stages: [commit]
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.4.0
+    hooks:
+      - id: check-yaml
+  - repo: local
+    hooks:
+      - id: sbt-test
+        name: Scala test case check
+        language: system #since we're running a command directly
+        always_run: true
+        pass_filenames: false
+        verbose: false
+        entry: sbt
+        args: [ ' test' ]
+      - id: sbt-scalafmt
+        name: Scala code format check
+        language: system
+        always_run: true
+        pass_filenames: false
+        verbose: false
+        entry: sbt
+        args: [ ' scalafmt' ]

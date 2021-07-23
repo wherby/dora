@@ -41,9 +41,9 @@ ciTests := {
 coverageEnabled in Test := true
 
 //setup precommit
-lazy val install = taskKey[Unit]("setup pre-commit")
+lazy val installPre = taskKey[Unit]("setup pre-commit")
 
-install := {
+installPre := {
   val shell: Seq[String] =
     if (sys.props("os.name").contains("Windows")) Seq("cmd", "/c") else Seq("bash", "-c")
   val cmds = Seq(
