@@ -1,7 +1,7 @@
 import sbt.Keys.{libraryDependencies, version}
 import Dependencies._
 
-
+import scala.sys.process.Process
 
 //ThisBuild / scalaVersion := scala213
 
@@ -16,7 +16,7 @@ lazy val dora = (project in file("dora"))
   .enablePlugins(JavaAppPackaging)
   .settings(
     name := "dora",
-    publishArtifact := true,
+    publishArtifact := true
   )
 
 lazy val root = (project in file("."))
@@ -25,8 +25,9 @@ lazy val root = (project in file("."))
   .settings(
     name := "doradilla",
     publishArtifact := false,
-    mainClass  := Some("io.github.wherby.doradilla.app.SimpleClusterApp"),//object with,
-  ).aggregate(dora)
+    mainClass := Some("io.github.wherby.doradilla.app.SimpleClusterApp") //object with,
+  )
+  .aggregate(dora)
   .dependsOn(dora)
 
 // Define a special test task which does not fail when any test fails,
@@ -38,3 +39,18 @@ ciTests := {
   val testResult = (test in Test).result.value
 }
 coverageEnabled in Test := true
+
+//setup precommit
+lazy val install = taskKey[Unit]("setup pre-commit")
+
+install := {
+  val shell: Seq[String] =
+    if (sys.props("os.name").contains("Windows")) Seq("cmd", "/c") else Seq("bash", "-c")
+  val cmds = Seq(
+    "brew install pre-commit",
+    "pre-commit install"
+  )
+  val cmdsExe = cmds.map { cmd =>
+    Process(shell :+ cmd).!
+  }
+}
