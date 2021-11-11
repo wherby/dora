@@ -15,7 +15,7 @@ object Dependencies {
   /* dependencies */
   val commonDependencies = Seq(
     // -- Logging --
-    "ch.qos.logback" % "logback-classic" % "1.2.3",
+    "ch.qos.logback" % "logback-classic" % "1.2.6",
     // -- Akka --
     "com.typesafe.akka" %% "akka-actor"   % akka,
     "com.typesafe.akka" %% "akka-slf4j"   % akka,
@@ -23,16 +23,16 @@ object Dependencies {
     // https://mvnrepository.com/artifact/org.scalatest/scalatest
     "org.scalatest" %% "scalatest" % "3.1.0" % Test,
     // https://mvnrepository.com/artifact/com.typesafe.play/play-json
-    "com.typesafe.play" %% "play-json" % "2.9.0",
+    "com.typesafe.play" %% "play-json" % "2.10.0-RC5",
     // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
-    "com.datastax.cassandra" % "cassandra-driver-core" % "4.0.0",
-    "io.netty"               % "netty-handler"         % "4.1.42.Final"
+    "com.datastax.oss" % "java-driver-core" % "4.13.0",
+    "io.netty"         % "netty-handler"    % "4.1.70.Final"
   )
 
   lazy val commonSettings = Seq(
     organization := "io.github.wherby",
     crossScalaVersions := supportedScalaVersion,
-    version := "1.8.0.5.5.22",
+    version := "1.8.0.6",
     resolvers ++= Seq(
       Resolver.sonatypeRepo("releases"),
       Resolver.sonatypeRepo("snapshots")
