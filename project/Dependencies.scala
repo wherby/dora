@@ -32,7 +32,7 @@ object Dependencies {
   lazy val commonSettings = Seq(
     organization := "io.github.wherby",
     crossScalaVersions := supportedScalaVersion,
-    version := "1.8.0.6",
+
     resolvers ++= Seq(
       Resolver.sonatypeRepo("releases"),
       Resolver.sonatypeRepo("snapshots")
@@ -57,14 +57,14 @@ object Dependencies {
         email = "187225577@qq.com",
         url = url("https://github.com/wherby")
       )
-    ),
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (version.value.contains("SNAPSHOT"))
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    }
+    )
+    // publishTo := {
+    //   val nexus = "https://oss.sonatype.org/"
+    //   if (version.value.contains("SNAPSHOT"))
+    //     Some("snapshots" at nexus + "content/repositories/snapshots")
+    //   else
+    //     Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    // }
   )
 
   lazy val settings = Seq(

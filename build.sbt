@@ -110,3 +110,14 @@ copyDocs := {
   IO.copyDirectory(src,dest)
 }
 
+inThisBuild(List(
+  organization := "org.dora",
+  homepage := Some(url("https://github.com/wherby/dora")),
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  developers := List(
+    Developer(
+      "Tao Zhou",
+      url("https://github.com/wherby/dora")
+    )
+  )
+))
