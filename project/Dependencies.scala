@@ -6,7 +6,7 @@ import sbt.{url, _}
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/3/31
   */
 object Dependencies {
-  lazy val akka                  = "2.5.22"
+  lazy val akka                  = "2.6.12"
   lazy val scala212              = "2.12.7"
   lazy val scala213              = "2.13.1"
   lazy val supportedScalaVersion = List(scala212, scala213)
