@@ -6,11 +6,7 @@ import scala.sys.process.Process
 
 //ThisBuild / scalaVersion := scala213
 
-publishMavenStyle := true
-releaseEarlyWith in Global := SonatypePublisher
 
-pgpPublicRing := file("./travis/local.pubring.asc")
-pgpSecretRing := file("./travis/local.secring.asc")
 
 lazy val dora = (project in file("dora"))
   .settings(commonSettings: _*)
@@ -31,14 +27,7 @@ lazy val root = (project in file("."))
   .aggregate(dora,docs)
   .dependsOn(dora,docs)
 
-// Define a special test task which does not fail when any test fails,
-// so sequential tasks (like SonarQube analysis) will be performed no matter the test result.
-lazy val ciTests = taskKey[Unit]("Run tests for CI")
 
-ciTests := {
-  // Capture the test result
-  val testResult = (test in Test).result.value
-}
 coverageEnabled in Test := true
 
 //setup precommit
@@ -58,8 +47,8 @@ installPre := {
 
 // https://github.com/djspiewak/sbt-github-actions
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
-ThisBuild / githubWorkflowPublishTargetBranches :=
-  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+ThisBuild / githubWorkflowPublishTargetBranches +=
+  RefPredicate.StartsWith(Ref.Tag("v"))
 
 //ThisBuild / crossScalaVersions := supportedScalaVersion
 
@@ -77,7 +66,19 @@ ThisBuild / githubWorkflowPublish := Seq(
   )
 )
 
-
+inThisBuild(List(
+  organization := "org.dora",
+  homepage := Some(url("https://github.com/wherby/dora")),
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  developers := List(
+    Developer(
+      "wherby",
+      "Tao Zhou",
+      "187225577@qq.com",
+      url("https://github.com/wherby/dora")
+    )
+  )
+))
 
 //docs build
 import Dependencies.commonSettings

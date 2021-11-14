@@ -1,5 +1,4 @@
 import com.typesafe.sbt.SbtNativePackager.autoImport.maintainer
-import com.typesafe.sbt.SbtPgp.autoImportImpl.useGpg
 import sbt.Keys._
 import sbt.{url, _}
 
@@ -32,7 +31,7 @@ object Dependencies {
   lazy val commonSettings = Seq(
     organization := "io.github.wherby",
     crossScalaVersions := supportedScalaVersion,
-    version := "1.8.0.6",
+
     resolvers ++= Seq(
       Resolver.sonatypeRepo("releases"),
       Resolver.sonatypeRepo("snapshots")
@@ -49,22 +48,14 @@ object Dependencies {
         url("https://github.com/wherby/dora.git"),
         "scm:git@github.com:wherby/dora.git"
       )
-    ),
-    developers := List(
-      Developer(
-        id = "wherby",
-        name = "Tao Zhou",
-        email = "187225577@qq.com",
-        url = url("https://github.com/wherby")
-      )
-    ),
-    publishTo := {
-      val nexus = "https://oss.sonatype.org/"
-      if (version.value.contains("SNAPSHOT"))
-        Some("snapshots" at nexus + "content/repositories/snapshots")
-      else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
-    }
+    )
+    // publishTo := {
+    //   val nexus = "https://oss.sonatype.org/"
+    //   if (version.value.contains("SNAPSHOT"))
+    //     Some("snapshots" at nexus + "content/repositories/snapshots")
+    //   else
+    //     Some("releases" at nexus + "service/local/staging/deploy/maven2")
+    // }
   )
 
   lazy val settings = Seq(
