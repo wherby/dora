@@ -114,7 +114,9 @@ inThisBuild(List(
   licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
   developers := List(
     Developer(
+      "wherby",
       "Tao Zhou",
+      "187225577@qq.com",
       url("https://github.com/wherby/dora")
     )
   )
