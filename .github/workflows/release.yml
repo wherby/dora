@@ -1,19 +1,19 @@
-name: Scala release 
-
+name: Release
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+    branches: [master, main]
+    tags: ["*"]
 jobs:
-  include:
-    # stage="test" if no stage is specified
-    - name: compile
-      script: sbt compile
-    - name: formatting
-      script: ./bin/scalafmt --test
-    # run ci-release only if previous stages passed
-    - stage: release
-      script: sbt ci-release
-
+  publish:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2.3.4
+        with:
+          fetch-depth: 0
+      - uses: olafurpg/setup-scala@v13
+      - run: sbt ci-release
+        env:
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
