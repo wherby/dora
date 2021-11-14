@@ -1,4 +1,4 @@
-Travis 
+Travis [Not used]
 ============
 ## Travis publish
 [Travis publish](https://github.com/scalacenter/sbt-release-early/wiki/How-to-release-in-Travis-(CI))
