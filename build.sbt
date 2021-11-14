@@ -27,14 +27,7 @@ lazy val root = (project in file("."))
   .aggregate(dora,docs)
   .dependsOn(dora,docs)
 
-// Define a special test task which does not fail when any test fails,
-// so sequential tasks (like SonarQube analysis) will be performed no matter the test result.
-lazy val ciTests = taskKey[Unit]("Run tests for CI")
 
-ciTests := {
-  // Capture the test result
-  val testResult = (test in Test).result.value
-}
 coverageEnabled in Test := true
 
 //setup precommit
