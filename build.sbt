@@ -6,8 +6,6 @@ import scala.sys.process.Process
 
 //ThisBuild / scalaVersion := scala213
 
-publishMavenStyle := true
-releaseEarlyWith in Global := SonatypePublisher
 
 
 lazy val dora = (project in file("dora"))
@@ -75,7 +73,19 @@ ThisBuild / githubWorkflowPublish := Seq(
   )
 )
 
-
+inThisBuild(List(
+  organization := "org.dora",
+  homepage := Some(url("https://github.com/wherby/dora")),
+  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
+  developers := List(
+    Developer(
+      "wherby",
+      "Tao Zhou",
+      "187225577@qq.com",
+      url("https://github.com/wherby/dora")
+    )
+  )
+))
 
 //docs build
 import Dependencies.commonSettings
@@ -108,16 +118,3 @@ copyDocs := {
   IO.copyDirectory(src,dest)
 }
 
-inThisBuild(List(
-  organization := "org.dora",
-  homepage := Some(url("https://github.com/wherby/dora")),
-  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-  developers := List(
-    Developer(
-      "wherby",
-      "Tao Zhou",
-      "187225577@qq.com",
-      url("https://github.com/wherby/dora")
-    )
-  )
-))
