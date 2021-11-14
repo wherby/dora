@@ -3,6 +3,7 @@ import Dependencies._
 
 import scala.sys.process.Process
 
+
 //ThisBuild / scalaVersion := scala213
 
 publishMavenStyle := true
@@ -27,8 +28,8 @@ lazy val root = (project in file("."))
     publishArtifact := false,
     mainClass := Some("io.github.wherby.doradilla.app.SimpleClusterApp") //object with,
   )
-  .aggregate(dora)
-  .dependsOn(dora)
+  .aggregate(dora,docs)
+  .dependsOn(dora,docs)
 
 // Define a special test task which does not fail when any test fails,
 // so sequential tasks (like SonarQube analysis) will be performed no matter the test result.
@@ -75,3 +76,37 @@ ThisBuild / githubWorkflowPublish := Seq(
     )
   )
 )
+
+
+
+//docs build
+import Dependencies.commonSettings
+
+lazy val docs = (project in file("docs"))
+  .enablePlugins(ParadoxPlugin)
+  .settings(commonSettings: _*)
+  .settings(
+    name := "document for dora",
+    paradoxTheme := Some(builtinParadoxTheme("generic")),
+    paradoxIllegalLinkPath := raw".*\\.md".r,
+    paradoxProperties in Compile ++=Map("project.description" -> "Description for dora library.",
+      "github.base_url" -> s"https://github.com/wherby/dora/tree/v${version.value}")
+  )
+
+
+// Define task to  copy html files
+val copyDocs = taskKey[Unit]("Copy html files from src/main/html to cross-version target directory")
+
+// Implement task
+copyDocs := {
+  import Path._
+
+  val src = baseDirectory.value  /"docs" /"target" / "paradox"/"site"/ "main"
+
+  val dest = baseDirectory.value /"public" /"docs"
+  IO.delete(dest)
+  dest.mkdir()
+  // Copy files to source files to target
+  IO.copyDirectory(src,dest)
+}
+
