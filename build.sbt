@@ -9,8 +9,6 @@ import scala.sys.process.Process
 publishMavenStyle := true
 releaseEarlyWith in Global := SonatypePublisher
 
-pgpPublicRing := file("./travis/local.pubring.asc")
-pgpSecretRing := file("./travis/local.secring.asc")
 
 lazy val dora = (project in file("dora"))
   .settings(commonSettings: _*)
