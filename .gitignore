@@ -17,3 +17,9 @@ local.*
 ## VScode
 **/*.DS_Store
 local.*
+.metals/*
+.vscode/*
+.bloop/*
+project/.bloop/*
+project/metals.sbt
+project/project/
