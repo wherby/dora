@@ -58,8 +58,8 @@ installPre := {
 
 // https://github.com/djspiewak/sbt-github-actions
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
-ThisBuild / githubWorkflowPublishTargetBranches :=
-  Seq(RefPredicate.StartsWith(Ref.Tag("v")))
+ThisBuild / githubWorkflowPublishTargetBranches +=
+  RefPredicate.StartsWith(Ref.Tag("v"))
 
 //ThisBuild / crossScalaVersions := supportedScalaVersion
 
