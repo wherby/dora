@@ -60,6 +60,8 @@ ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
 ThisBuild / githubWorkflowPublishTargetBranches :=
   Seq(RefPredicate.StartsWith(Ref.Tag("v")))
 
+ThisBuild / crossScalaVersions := supportedScalaVersion
+
 ThisBuild / githubWorkflowPublish := Seq(WorkflowStep.Sbt(List("ci-release")))
 
 ThisBuild / githubWorkflowPublish := Seq(
