@@ -1,12 +1,13 @@
 import sbt.Keys.{libraryDependencies, version}
 import Dependencies._
+import com.jsuereth.sbtpgp.PgpKeys.gpgCommand
 
 import scala.sys.process.Process
 
 
 //ThisBuild / scalaVersion := scala213
-
-
+//https://github.com/sbt/sbt-pgp/issues/173
+Global / gpgCommand := (baseDirectory.value / "gpg.sh").getAbsolutePath
 
 lazy val dora = (project in file("dora"))
   .settings(commonSettings: _*)
