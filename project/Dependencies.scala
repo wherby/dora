@@ -9,7 +9,7 @@ object Dependencies {
   lazy val akka                  = "2.6.19"
   lazy val scala212              = "2.12.17"
   lazy val scala213              = "2.13.10"
-  lazy val supportedScalaVersion = List(scala212, scala213)
+  lazy val supportedScalaVersion = List(scala213)
 
   lazy val logback ="1.3.4"
   lazy val scalaTest = "3.1.0"
