@@ -15,7 +15,8 @@ object Dependencies {
   lazy val scalaTest = "3.1.0"
   lazy val playJson = "2.9.3"
   lazy val javaDriverCore = "4.15.0"
-  lazy val nettyHandler = ""
+  lazy val nettyHandler = "4.1.84.Final"
+  lazy val jacksonDataBind="2.14.0-rc2"
 
   /* dependencies */
   val commonDependencies = Seq(
@@ -32,6 +33,11 @@ object Dependencies {
     // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
     "com.datastax.oss" % "java-driver-core" % javaDriverCore,
     //"io.netty"         % "netty-handler"    % "4.1.70.Final"
+    // fix CVE issues
+    // https://mvnrepository.com/artifact/io.netty/netty-handler
+    "io.netty" % "netty-handler" % nettyHandler,
+      // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+     "com.fasterxml.jackson.core" % "jackson-databind" % jacksonDataBind
   )
 
   lazy val commonSettings = Seq(
