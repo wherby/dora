@@ -31,11 +31,11 @@ object Dependencies {
     // https://mvnrepository.com/artifact/com.typesafe.play/play-json
     "com.typesafe.play" %% "play-json" % playJson,
     // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
-    "com.datastax.oss" % "java-driver-core" % javaDriverCore,
+   // "com.datastax.oss" % "java-driver-core" % javaDriverCore,
     //"io.netty"         % "netty-handler"    % "4.1.70.Final"
     // fix CVE issues
     // https://mvnrepository.com/artifact/io.netty/netty-handler
-    "io.netty" % "netty-handler" % nettyHandler,
+    //"io.netty" % "netty-handler" % nettyHandler,
       // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
      "com.fasterxml.jackson.core" % "jackson-databind" % jacksonDataBind
   )
