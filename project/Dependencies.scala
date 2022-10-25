@@ -11,21 +11,27 @@ object Dependencies {
   lazy val scala213              = "2.13.10"
   lazy val supportedScalaVersion = List(scala212, scala213)
 
+  lazy val logback ="1.3.4"
+  lazy val scalaTest = "3.1.0"
+  lazy val playJson = "2.9.3"
+  lazy val javaDriverCore = "4.15.0"
+  lazy val nettyHandler = ""
+
   /* dependencies */
   val commonDependencies = Seq(
     // -- Logging --
-    "ch.qos.logback" % "logback-classic" % "1.2.6",
+    "ch.qos.logback" % "logback-classic" % logback,
     // -- Akka --
     "com.typesafe.akka" %% "akka-actor"   % akka,
     "com.typesafe.akka" %% "akka-slf4j"   % akka,
     "com.typesafe.akka" %% "akka-testkit" % akka,
     // https://mvnrepository.com/artifact/org.scalatest/scalatest
-    "org.scalatest" %% "scalatest" % "3.1.0" % Test,
+    "org.scalatest" %% "scalatest" % scalaTest % Test,
     // https://mvnrepository.com/artifact/com.typesafe.play/play-json
-    "com.typesafe.play" %% "play-json" % "2.10.0-RC5",
+    "com.typesafe.play" %% "play-json" % playJson,
     // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
-    "com.datastax.oss" % "java-driver-core" % "4.13.0",
-    "io.netty"         % "netty-handler"    % "4.1.70.Final"
+    "com.datastax.oss" % "java-driver-core" % javaDriverCore,
+    //"io.netty"         % "netty-handler"    % "4.1.70.Final"
   )
 
   lazy val commonSettings = Seq(
