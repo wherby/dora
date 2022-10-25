@@ -23,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.10]
+        scala: [2.12.16]
         java: [adopt@1.8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -56,7 +56,7 @@ jobs:
         run: sbt ++${{ matrix.scala }} test
 
       - name: Compress target directories
-        run: tar cf targets.tar target docs/target dora/target project/target
+        run: tar cf targets.tar target dora/target docs/target project/target
 
       - name: Upload target directories
         uses: actions/upload-artifact@v2
@@ -71,7 +71,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        scala: [2.12.10]
+        scala: [2.12.16]
         java: [adopt@1.8]
     runs-on: ${{ matrix.os }}
     steps:
@@ -97,12 +97,12 @@ jobs:
             ~/Library/Caches/Coursier/v1
           key: ${{ runner.os }}-sbt-cache-v2-${{ hashFiles('**/*.sbt') }}-${{ hashFiles('project/build.properties') }}
 
-      - name: Download target directories (2.12.10)
+      - name: Download target directories (2.12.16)
         uses: actions/download-artifact@v2
         with:
-          name: target-${{ matrix.os }}-2.12.10-${{ matrix.java }}
+          name: target-${{ matrix.os }}-2.12.16-${{ matrix.java }}
 
-      - name: Inflate target directories (2.12.10)
+      - name: Inflate target directories (2.12.16)
         run: |
           tar xf targets.tar
           rm targets.tar
