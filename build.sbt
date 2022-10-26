@@ -4,7 +4,6 @@ import com.jsuereth.sbtpgp.PgpKeys.gpgCommand
 
 import scala.sys.process.Process
 
-
 //ThisBuild / scalaVersion := scala213
 //https://github.com/sbt/sbt-pgp/issues/173
 Global / gpgCommand := (baseDirectory.value / "gpg.sh").getAbsolutePath
@@ -12,10 +11,7 @@ Global / gpgCommand := (baseDirectory.value / "gpg.sh").getAbsolutePath
 lazy val dora = (project in file("dora"))
   .settings(commonSettings: _*)
   .enablePlugins(JavaAppPackaging)
-  .settings(
-    name := "dora",
-    publishArtifact := true
-  )
+  .settings(name := "dora", publishArtifact := true)
 
 lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging)
@@ -25,9 +21,8 @@ lazy val root = (project in file("."))
     publishArtifact := false,
     mainClass := Some("io.github.wherby.doradilla.app.SimpleClusterApp") //object with,
   )
-  .aggregate(dora,docs)
-  .dependsOn(dora,docs)
-
+  .aggregate(dora, docs)
+  .dependsOn(dora, docs)
 
 coverageEnabled in Test := true
 
@@ -36,11 +31,9 @@ lazy val installPre = taskKey[Unit]("setup pre-commit")
 
 installPre := {
   val shell: Seq[String] =
-    if (sys.props("os.name").contains("Windows")) Seq("cmd", "/c") else Seq("bash", "-c")
-  val cmds = Seq(
-    "brew install pre-commit",
-    "pre-commit install"
-  )
+    if (sys.props("os.name").contains("Windows")) Seq("cmd", "/c")
+    else Seq("bash", "-c")
+  val cmds = Seq("brew install pre-commit", "pre-commit install")
   val cmdsExe = cmds.map { cmd =>
     Process(shell :+ cmd).!
   }
@@ -48,8 +41,9 @@ installPre := {
 
 // https://github.com/djspiewak/sbt-github-actions
 ThisBuild / githubWorkflowTargetTags ++= Seq("v*")
-ThisBuild / githubWorkflowPublishTargetBranches +=
+ThisBuild / githubWorkflowPublishTargetBranches := Seq(
   RefPredicate.StartsWith(Ref.Tag("v"))
+)
 
 //ThisBuild / crossScalaVersions := supportedScalaVersion
 
@@ -67,19 +61,23 @@ ThisBuild / githubWorkflowPublish := Seq(
   )
 )
 
-inThisBuild(List(
-  organization := "org.dora",
-  homepage := Some(url("https://github.com/wherby/dora")),
-  licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")),
-  developers := List(
-    Developer(
-      "wherby",
-      "Tao Zhou",
-      "187225577@qq.com",
-      url("https://github.com/wherby/dora")
+inThisBuild(
+  List(
+    organization := "org.dora",
+    homepage := Some(url("https://github.com/wherby/dora")),
+    licenses := List(
+      "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
+    ),
+    developers := List(
+      Developer(
+        "wherby",
+        "Tao Zhou",
+        "187225577@qq.com",
+        url("https://github.com/wherby/dora")
+      )
     )
   )
-))
+)
 
 //docs build
 import Dependencies.commonSettings
@@ -91,25 +89,26 @@ lazy val docs = (project in file("docs"))
     name := "document for dora",
     paradoxTheme := Some(builtinParadoxTheme("generic")),
     paradoxIllegalLinkPath := raw".*\\.md".r,
-    paradoxProperties in Compile ++=Map("project.description" -> "Description for dora library.",
-      "github.base_url" -> s"https://github.com/wherby/dora/tree/v${version.value}")
+    paradoxProperties in Compile ++= Map(
+      "project.description" -> "Description for dora library.",
+      "github.base_url" -> s"https://github.com/wherby/dora/tree/v${version.value}"
+    )
   )
 
-
 // Define task to  copy html files
-val copyDocs = taskKey[Unit]("Copy html files from src/main/html to cross-version target directory")
+val copyDocs = taskKey[Unit](
+  "Copy html files from src/main/html to cross-version target directory"
+)
 
 // Implement task
 copyDocs := {
   import Path._
 
-  val src = baseDirectory.value  /"docs" /"target" / "paradox"/"site"/ "main"
+  val src = baseDirectory.value / "docs" / "target" / "paradox" / "site" / "main"
 
-  val dest = baseDirectory.value /"public" /"docs"
+  val dest = baseDirectory.value / "public" / "docs"
   IO.delete(dest)
   dest.mkdir()
   // Copy files to source files to target
-  IO.copyDirectory(src,dest)
+  IO.copyDirectory(src, dest)
 }
-
-

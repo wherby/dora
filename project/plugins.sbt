@@ -14,7 +14,7 @@ addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "0.6.8")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0") // "2.4.0" is just sbt plugin version
 
 // https://github.com/djspiewak/sbt-github-actions
-addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.13.0")
+addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.14.2")
 // https://github.com/sbt/sbt-ci-release
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.11")
 
