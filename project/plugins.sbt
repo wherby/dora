@@ -18,4 +18,4 @@ addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.14.2")
 // https://github.com/sbt/sbt-ci-release
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.11")
 
-//addDependencyTreePlugin
+addDependencyTreePlugin

@@ -24,3 +24,6 @@ project/.bloop/*
 project/metals.sbt
 project/project/
 .bsp
+.bloop
+.metals
+.vscode
