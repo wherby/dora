@@ -6,44 +6,43 @@ import sbt.{url, _}
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/3/31
   */
 object Dependencies {
-  lazy val akka                  = "2.6.19"
-  lazy val scala212              = "2.12.10"
-  lazy val scala213              = "2.13.10"
+  lazy val akka = "2.6.20"
+  lazy val scala212 = "2.12.10"
+  lazy val scala213 = "2.13.10"
   lazy val supportedScalaVersion = List(scala212, scala213)
 
-  lazy val logback ="1.3.4"
+  lazy val logback = "1.3.4"
   lazy val scalaTest = "3.1.0"
   lazy val playJson = "2.9.3"
   lazy val javaDriverCore = "4.15.0"
   lazy val nettyHandler = "4.1.84.Final"
-  lazy val jacksonDataBind="2.14.0-rc2"
+  lazy val jacksonDataBind = "2.14.0-rc2"
 
   /* dependencies */
   val commonDependencies = Seq(
     // -- Logging --
     "ch.qos.logback" % "logback-classic" % logback,
     // -- Akka --
-    "com.typesafe.akka" %% "akka-actor"   % akka,
-    "com.typesafe.akka" %% "akka-slf4j"   % akka,
+    "com.typesafe.akka" %% "akka-actor" % akka,
+    "com.typesafe.akka" %% "akka-slf4j" % akka,
     "com.typesafe.akka" %% "akka-testkit" % akka,
     // https://mvnrepository.com/artifact/org.scalatest/scalatest
     "org.scalatest" %% "scalatest" % scalaTest % Test,
     // https://mvnrepository.com/artifact/com.typesafe.play/play-json
     "com.typesafe.play" %% "play-json" % playJson,
     // https://mvnrepository.com/artifact/com.datastax.cassandra/cassandra-driver-core
-   // "com.datastax.oss" % "java-driver-core" % javaDriverCore,
+    // "com.datastax.oss" % "java-driver-core" % javaDriverCore,
     //"io.netty"         % "netty-handler"    % "4.1.70.Final"
     // fix CVE issues
     // https://mvnrepository.com/artifact/io.netty/netty-handler
     //"io.netty" % "netty-handler" % nettyHandler,
-      // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-     "com.fasterxml.jackson.core" % "jackson-databind" % jacksonDataBind
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    "com.fasterxml.jackson.core" % "jackson-databind" % jacksonDataBind
   )
 
   lazy val commonSettings = Seq(
     organization := "io.github.wherby",
     crossScalaVersions := supportedScalaVersion,
-
     resolvers ++= Seq(
       Resolver.sonatypeRepo("releases"),
       Resolver.sonatypeRepo("snapshots")
@@ -51,7 +50,9 @@ object Dependencies {
     libraryDependencies ++= commonDependencies,
     maintainer := "wherby <187225577@qq.com>",
     licenses := Seq(
-      "Apache License 2.0" -> url("https://github.com/wherby/dora/blob/master/LICENSE")
+      "Apache License 2.0" -> url(
+        "https://github.com/wherby/dora/blob/master/LICENSE"
+      )
     ),
     //useGpg := true,
     homepage := Some(url("https://github.com/wherby/dora")),
