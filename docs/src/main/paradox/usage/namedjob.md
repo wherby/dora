@@ -8,13 +8,13 @@ When received a named job, the doradilla will create a named JobApi to handled t
 
 ![Named job](pic/namedtask.png)
 
-The code implementation see [Named job Runner](https://github.com/wherby/doradilla/blob/master/doradilla-core/src/main/scala/doradilla/back/NamedJobRunner.scala):
+The code implementation see [Named job Runner](/dora/src/main/scala/doradilla/back/NamedJobRunner.scala):
 
 @@ snip [Named job runner](code/namedjob.scala)
 
 ## Usage
 
-@@ snip [named job usage](/doradilla-core/src/test/scala/app/NamedJobRunnerSpec.scala)
+@@ snip [named job usage](/dora/src/test/scala/app/NamedJobRunnerSpec.scala)
 
 ## FSMActor number control for named JobApi
 

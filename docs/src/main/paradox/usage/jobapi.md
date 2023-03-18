@@ -6,7 +6,7 @@ JobApi is an interface and mixin of implementation of key functions in doradilla
 
 Let's see what's JobApi:
 
-@@ snip [JobApi implementation](/doradilla-core/src/main/scala/doracore/api/JobApi.scala)
+@@ snip [JobApi implementation](/dora/src/main/scala/doracore/api/JobApi.scala)
 
 The Job Api mixin SystemApi, DriverApi and TranslationApi(CommmandTranApi and ProcessTranApi).
 
@@ -25,16 +25,16 @@ A FSMActor will be created and linked to the QueueActor [DriverApi]
 Code implementation: 
 
 SystemApi
-: @@snip [SystemAPi](/doradilla-core/src/main/scala/doracore/api/SystemApi.scala)
+: @@snip [SystemAPi](/dora/src/main/scala/doracore/api/SystemApi.scala)
 
 DriverApi
-: @@snip [DriverApi](/doradilla-core/src/main/scala/doracore/api/DriverApi.scala)
+: @@snip [DriverApi](/dora/src/main/scala/doracore/api/DriverApi.scala)
 
 CommandTranApi
-: @@snip [CommandTranApi](/doradilla-core/src/main/scala/doracore/api/CommandTranApi.scala)
+: @@snip [CommandTranApi](/dora/src/main/scala/doracore/api/CommandTranApi.scala)
 
 ProcessTranApi
-: @@snip [CommandTranApi](/doradilla-core/src/main/scala/doracore/api/ProcessTranApi.scala)
+: @@snip [CommandTranApi](/dora/src/main/scala/doracore/api/ProcessTranApi.scala)
 
 
 

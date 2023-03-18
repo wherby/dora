@@ -5,8 +5,8 @@
 <title>JobApi · Doradilla</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content='Description for doradilla library.'/>
-<link rel="canonical" href="https://github.com/wherby/doradillausage/jobapi.html"/>
+<meta name="description" content='Description for dora library.'/>
+<link rel="canonical" href="https://github.com/wherby/dorausage/jobapi.html"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
@@ -31,7 +31,7 @@
 <span class="home-icon">⌂</span>Doradilla
 </a>
 <div class="version-number">
-1.8.0.0
+1.8.0.7.006+1-82cbcdc0*
 </div>
 </div>
 <div class="nav-toc">
@@ -80,7 +80,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>Doradilla
 </a>
 <div class="version-number">
-1.8.0.0
+1.8.0.7.006+1-82cbcdc0*
 </div>
 </div>
 <div class="nav-toc">
@@ -127,21 +127,18 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <h2><a href="#whats-jobapi" name="whats-jobapi" class="anchor"><span class="anchor-link"></span></a>What&rsquo;s JobApi</h2>
 <p>JobApi is an interface and mixin of implementation of key functions in doradilla.</p>
 <p>Let&rsquo;s see what&rsquo;s JobApi:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/doradilla-core/src/main/scala/doracore/api/JobApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/dora/src/main/scala/doracore/api/JobApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.ActorSystem
 
-
-/**
-  * For doradilla.api in Doradilla
+/** For doradilla.api in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/13
   */
-class JobApi(systemOpt: Option[ActorSystem]=None) extends SystemApi(systemOpt: Option[ActorSystem]) with DriverApi with CommandTranApi with ProcessTranApi {
-
-}
-
-
-</code></pre>
+class JobApi(systemOpt: Option[ActorSystem] = None)
+    extends SystemApi(systemOpt: Option[ActorSystem])
+    with DriverApi
+    with CommandTranApi
+    with ProcessTranApi {}</code></pre>
 <p>The Job Api mixin SystemApi, DriverApi and TranslationApi(CommmandTranApi and ProcessTranApi).</p>
 <p>When create a JobApi:</p>
 <ol>
@@ -157,26 +154,27 @@ class JobApi(systemOpt: Option[ActorSystem]=None) extends SystemApi(systemOpt: O
 <dl>
   <dt>SystemApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/doradilla-core/src/main/scala/doracore/api/SystemApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/dora/src/main/scala/doracore/api/SystemApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.ActorSystem
 import akka.util.Timeout
 import doracore.util.{CNaming, ConfigService, DoraCoreConfig}
 import doracore.vars.ConstVars
 
-
-
-/**
-  * For doradilla.api in Doradilla
+/** For doradilla.api in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/9
   */
-class SystemApi(systemOpt: Option[ActorSystem] = None) extends GetBlockIOExcutor with ActorSystemApi {
+class SystemApi(systemOpt: Option[ActorSystem] = None)
+    extends GetBlockIOExecutor
+    with ActorSystemApi {
   val longTimeout = Timeout(ConstVars.longTimeOut)
 
   lazy val doradillaConfig = DoraCoreConfig.getConfig()
 
   def createDoradillaSystem: ActorSystem = {
-    val actorSystemName = ConfigService.getStringOpt(doradillaConfig, &quot;doradillaSystem&quot;).getOrElse(CNaming.timebasedName( &quot;diradilla&quot;))
+    val actorSystemName = ConfigService
+      .getStringOpt(doradillaConfig, &quot;doradillaSystem&quot;)
+      .getOrElse(CNaming.timebasedName(&quot;doradilla&quot;))
     ActorSystem(actorSystemName, doradillaConfig)
   }
 
@@ -186,39 +184,43 @@ class SystemApi(systemOpt: Option[ActorSystem] = None) extends GetBlockIOExcutor
 
   val actorSystem: ActorSystem = systemOpt match {
     case Some(system) =&gt; system
-    case _ =&gt; createDoradillaSystem
+    case _            =&gt; createDoradillaSystem
   }
 }</code></pre></dd>
   <dt>DriverApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/doradilla-core/src/main/scala/doracore/api/DriverApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/dora/src/main/scala/doracore/api/DriverApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.{ActorRef}
 import doracore.core.driver.DriverActor
 import doracore.util.{CNaming, ConfigService}
 
-/**
-  * For doradilla.api in Doradilla
+/** For doradilla.api in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/9
   */
 trait DriverApi {
   this: SystemApi =&gt;
-  def createDriver(queueActorOpt: Option[ActorRef] = None, driverNameOpt: Option[String] = None): ActorRef = {
+  def createDriver(
+      queueActorOpt: Option[ActorRef] = None,
+      driverNameOpt: Option[String] = None
+  ): ActorRef = {
     val driverName = driverNameOpt match {
       case Some(driverName) =&gt; driverName
-      case _ =&gt; ConfigService.getStringOpt(doradillaConfig, &quot;driverPrefix&quot;).getOrElse(CNaming.timebasedName( &quot;driver&quot;))
+      case _ =&gt;
+        ConfigService
+          .getStringOpt(doradillaConfig, &quot;driverPrefix&quot;)
+          .getOrElse(CNaming.timebasedName(&quot;driver&quot;))
     }
     actorSystem.actorOf(DriverActor.driverActorProps(queueActorOpt), driverName)
   }
 
-  var queueActorSet:Option[ActorRef] = None
+  var queueActorSet: Option[ActorRef] = None
 
-  lazy val defaultDriver: ActorRef =createDriver(queueActorSet)
+  lazy val defaultDriver: ActorRef = createDriver(queueActorSet)
 }</code></pre></dd>
   <dt>CommandTranApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/doradilla-core/src/main/scala/doracore/api/CommandTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
-
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/dora/src/main/scala/doracore/api/CommandTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import doracore.core.msg.Job.{JobMsg, JobRequest, JobResult}
 import doracore.tool.job.command.CommandTranActor
@@ -229,26 +231,27 @@ import scala.concurrent.{ExecutionContext, Future}
 import akka.util.Timeout
 import doracore.util.CNaming
 
-/**
-  * For doradilla.api in Doradilla
+/** For doradilla.api in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/13
   */
-trait CommandTranApi extends  AskProcessResult{
-  this: SystemApi with DriverApi=&gt;
-  val commandTranslatedActor = actorSystem.actorOf(CommandTranActor.commandTranProps, CNaming.timebasedName(&quot;CommandTran&quot;))
+trait CommandTranApi extends AskProcessResult {
+  this: SystemApi with DriverApi =&gt;
+  val commandTranslatedActor =
+    actorSystem.actorOf(CommandTranActor.commandTranProps, CNaming.timebasedName(&quot;CommandTran&quot;))
 
-  def processCommand(command: List[String],timeout: Timeout = longTimeout)(implicit ex: ExecutionContext): Future[JobResult] = {
+  def processCommand(command: List[String], timeout: Timeout = longTimeout)(implicit
+      ex: ExecutionContext
+  ): Future[JobResult] = {
     val commandJobMsg = JobMsg(&quot;SimpleCommand&quot;, Json.toJson(CommandRequest(command)).toString())
-    val receiveActor = actorSystem.actorOf(ReceiveActor.receiveActorProps, CNaming.timebasedName(&quot;Receive&quot;))
+    val receiveActor =
+      actorSystem.actorOf(ReceiveActor.receiveActorProps, CNaming.timebasedName(&quot;Receive&quot;))
     val commandJobRequest = JobRequest(commandJobMsg, receiveActor, commandTranslatedActor)
-    getProcessCommandFutureResult(commandJobRequest, defaultDriver, receiveActor,timeout)
+    getProcessCommandFutureResult(commandJobRequest, defaultDriver, receiveActor, timeout)
   }
-}
-
-</code></pre></dd>
+}</code></pre></dd>
   <dt>ProcessTranApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/doradilla-core/src/main/scala/doracore/api/ProcessTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/dora/src/main/scala/doracore/api/ProcessTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import doracore.core.msg.Job.{JobMsg, JobRequest, JobResult}
 import doracore.tool.job.process.ProcessTranActor
@@ -259,24 +262,29 @@ import scala.concurrent.{ExecutionContext, Future}
 import akka.util.Timeout
 import doracore.util.CNaming
 
-/**
-  * For doradilla.api in Doradilla
+/** For doradilla.api in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/24
   */
-trait ProcessTranApi extends AskProcessResult{
+trait ProcessTranApi extends AskProcessResult {
   this: SystemApi with DriverApi =&gt;
-  val processTranActor = actorSystem.actorOf(ProcessTranActor.processTranActorProps, CNaming.timebasedName( &quot;defaultProcessTranActor&quot;))
+  val processTranActor = actorSystem.actorOf(
+    ProcessTranActor.processTranActorProps,
+    CNaming.timebasedName(&quot;defaultProcessTranActor&quot;)
+  )
 
-  def runProcessCommand(processCallMsg: ProcessCallMsg, timeout: Timeout = longTimeout)(implicit ex: ExecutionContext): Future[JobResult] = {
+  def runProcessCommand(processCallMsg: ProcessCallMsg, timeout: Timeout = longTimeout)(implicit
+      ex: ExecutionContext
+  ): Future[JobResult] = {
     val processJob = JobMsg(&quot;SimpleProcess&quot;, processCallMsg)
-    val receiveActor = actorSystem.actorOf(ReceiveActor.receiveActorProps, CNaming.timebasedName( &quot;Receive&quot;))
+    val receiveActor =
+      actorSystem.actorOf(ReceiveActor.receiveActorProps, CNaming.timebasedName(&quot;Receive&quot;))
     val processJobRequest = JobRequest(processJob, receiveActor, processTranActor)
-    getProcessCommandFutureResult(processJobRequest, defaultDriver, receiveActor,timeout)
+    getProcessCommandFutureResult(processJobRequest, defaultDriver, receiveActor, timeout)
   }
 }</code></pre></dd>
 </dl>
 <div class="source-github">
-The source code for this page can be found <a href="https://github.com/wherby/doradilla/tree/v1.8.0.0/docs/src/main/paradox/usage/jobapi.md">here</a>.
+The source code for this page can be found <a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/docs/src/main/paradox/usage/jobapi.md">here</a>.
 </div>
 
 <div class="nav-next">
@@ -334,7 +342,7 @@ The source code for this page can be found <a href="https://github.com/wherby/do
 
 <!--
 <div class="copyright">
-<span class="text">&copy; 2020</span>
+<span class="text">&copy; 2023</span>
 <a href="https://www.example.com" class="logo">logo</a>
 </div>
 -->
@@ -359,7 +367,7 @@ The source code for this page can be found <a href="https://github.com/wherby/do
 <script type="text/javascript" src="../lib/prettify/prettify.js"></script>
 <script type="text/javascript" src="../lib/prettify/lang-scala.js"></script>
 <script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
-<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '1.8.0.0', 'https://github.com/wherby/doradilla')});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '1.8.0.7.006+1-82cbcdc0-SNAPSHOT', 'https://github.com/wherby/dora')});</script>
 
 
 </html>
