@@ -21,13 +21,13 @@ $!
   IN THE SOFTWARE.
 !$
 <footer class="md-footer">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6XHLGL44CS"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XKG1XKCP13"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-6XHLGL44CS');
+    gtag('config', 'G-XKG1XKCP13');
   </script>
   $ if (page.next.html || page.prev.html) $
     <div class="md-footer-nav">
