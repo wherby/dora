@@ -17,9 +17,9 @@ lazy val root = (project in file("."))
   .enablePlugins(JavaAppPackaging)
   .settings(commonSettings: _*)
   .settings(
-    name := "doradilla",
-    publishArtifact := false,
-    mainClass := Some("io.github.wherby.doradilla.app.SimpleClusterApp") //object with,
+    name := "dora",
+    publishArtifact := false//,
+    //mainClass := Some("io.github.wherby.dora.app.SimpleClusterApp") //object with,
   )
   .aggregate(dora, docs)
   .dependsOn(dora, docs)
@@ -83,11 +83,18 @@ inThisBuild(
 import Dependencies.commonSettings
 
 lazy val docs = (project in file("docs"))
-  .enablePlugins(ParadoxPlugin)
+  .enablePlugins(ParadoxMaterialThemePlugin)
   .settings(commonSettings: _*)
   .settings(
     name := "document for dora",
-    paradoxTheme := Some(builtinParadoxTheme("generic")),
+ Compile / paradoxMaterialTheme ~= {
+   ParadoxMaterialTheme()
+     .withColor("teal", "indigo")
+   _.withRepository(uri("https://github.com/wherby/docs"))
+     .withSocial(
+       uri("https://github.com/wherby"),
+       uri("https://wherby.github.io"))
+ },
     paradoxIllegalLinkPath := raw".*\\.md".r,
     paradoxProperties in Compile ++= Map(
       "project.description" -> "Description for dora library.",
