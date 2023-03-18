@@ -5,8 +5,8 @@
 <title>Use case · Doradilla</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content='Description for doradilla library.'/>
-<link rel="canonical" href="https://github.com/wherby/doradillausage/usecase.html"/>
+<meta name="description" content='Description for dora library.'/>
+<link rel="canonical" href="https://github.com/wherby/dorausage/usecase.html"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
@@ -31,7 +31,7 @@
 <span class="home-icon">⌂</span>Doradilla
 </a>
 <div class="version-number">
-1.8.0.0
+1.8.0.7.006+1-82cbcdc0*
 </div>
 </div>
 <div class="nav-toc">
@@ -80,7 +80,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>Doradilla
 </a>
 <div class="version-number">
-1.8.0.0
+1.8.0.7.006+1-82cbcdc0*
 </div>
 </div>
 <div class="nav-toc">
@@ -135,7 +135,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <p><img src="pic/service.png" alt="Services" /></p>
 <p>If all processors use same JobAPi, when one worker is taking &ldquo;OCR processor&rdquo; job, then one CPU on the host will be not well utilized.</p>
 <p>So the &ldquo;OCR processor&rdquo; could be assigned to another driver use the named job feature:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/docs/src/main/paradox/usage/code/namedprocessor.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def runProcess(paras : List[AnyRef], clazzName:String, methodName:String, prioritySet: Option[Int] = None) ={
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/docs/src/main/paradox/usage/code/namedprocessor.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def runProcess(paras : List[AnyRef], clazzName:String, methodName:String, prioritySet: Option[Int] = None) ={
     ....
     val namedSevice = Seq(&quot;com.pwc.ds.cidr.project.creditreview.processors.OcrPlusProcessor&quot;)
     if(namedSevice.contains(clazzName)){
@@ -149,7 +149,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <p>and the processor as below:</p>
 <p><img src="./pic/p2.png" alt="named processor" /></p>
 <div class="source-github">
-The source code for this page can be found <a href="https://github.com/wherby/doradilla/tree/v1.8.0.0/docs/src/main/paradox/usage/usecase.md">here</a>.
+The source code for this page can be found <a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/docs/src/main/paradox/usage/usecase.md">here</a>.
 </div>
 
 <div class="nav-next">
@@ -208,7 +208,7 @@ The source code for this page can be found <a href="https://github.com/wherby/do
 
 <!--
 <div class="copyright">
-<span class="text">&copy; 2020</span>
+<span class="text">&copy; 2023</span>
 <a href="https://www.example.com" class="logo">logo</a>
 </div>
 -->
@@ -233,7 +233,7 @@ The source code for this page can be found <a href="https://github.com/wherby/do
 <script type="text/javascript" src="../lib/prettify/prettify.js"></script>
 <script type="text/javascript" src="../lib/prettify/lang-scala.js"></script>
 <script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
-<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '1.8.0.0', 'https://github.com/wherby/doradilla')});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '1.8.0.7.006+1-82cbcdc0-SNAPSHOT', 'https://github.com/wherby/dora')});</script>
 
 
 </html>

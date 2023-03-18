@@ -5,8 +5,8 @@
 <title>Named job · Doradilla</title>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="description" content='Description for doradilla library.'/>
-<link rel="canonical" href="https://github.com/wherby/doradillausage/namedjob.html"/>
+<meta name="description" content='Description for dora library.'/>
+<link rel="canonical" href="https://github.com/wherby/dorausage/namedjob.html"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:100normal,100italic,300normal,300italic,400normal,400italic,500normal,500italic,700normal,700italic,900normal,900italicc" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../lib/jquery/jquery.min.js"></script>
 <script type="text/javascript" src="../js/page.js"></script>
@@ -31,7 +31,7 @@
 <span class="home-icon">⌂</span>Doradilla
 </a>
 <div class="version-number">
-1.8.0.0
+1.8.0.7.006+1-82cbcdc0*
 </div>
 </div>
 <div class="nav-toc">
@@ -80,7 +80,7 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <span class="home-icon">⌂</span>Doradilla
 </a>
 <div class="version-number">
-1.8.0.0
+1.8.0.7.006+1-82cbcdc0*
 </div>
 </div>
 <div class="nav-toc">
@@ -128,8 +128,8 @@ C16.952,7,17,6.553,17,6c0-0.553-0.048-1-0.6-1H3.6C3.048,5,3,5.447,3,6C3,6.553,3.
 <p>By default doradilla will create a cluster based JobApi to process anonymous job at initialization stage.</p>
 <p>When received a named job, the doradilla will create a named JobApi to handled the job.</p>
 <p><img src="pic/namedtask.png" alt="Named job" /></p>
-<p>The code implementation see <a href="https://github.com/wherby/doradilla/blob/master/doradilla-core/src/main/scala/doradilla/back/NamedJobRunner.scala">Named job Runner</a>:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/docs/src/main/paradox/usage/code/namedjob.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">private def getNamedJobApi(jobName:String):JobApi={
+<p>The code implementation see <a href="/dora/src/main/scala/doradilla/back/NamedJobRunner.scala">Named job Runner</a>:</p>
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/docs/src/main/paradox/usage/code/namedjob.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">private def getNamedJobApi(jobName:String):JobApi={
   namedJobApiMap.get(jobName) match {
     case Some(jobApi) =&gt; jobApi
     case _=&gt; val jobApi: JobApi = new JobApi(Some( getActorSystem()))
@@ -148,10 +148,12 @@ def runNamedProcessCommand(processJob: JobMsg,
   getProcessCommandFutureResult(processJobRequest, jobApi.defaultDriver, receiveActor,timeout)
 }</code></pre>
 <h2><a href="#usage" name="usage" class="anchor"><span class="anchor-link"></span></a>Usage</h2>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/doradilla-core/src/test/scala/app/NamedJobRunnerSpec.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package app
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/dora/src/test/scala/app/NamedJobRunnerSpec.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package app
 
 import doracore.ActorTestClass
-import doracore.core.msg.Job.JobMsg
+import doracore.core.msg.Job.{JobMsg, JobStatus}
+import doracore.core.msg.Job.JobStatus.JobStatus
+import doracore.util.ProcessService.ProcessResult
 import doracore.util.{ProcessService, ProcessServiceSpec}
 import doracore.vars.ConstVars
 import doradilla.back.BackendServer
@@ -160,12 +162,14 @@ import org.scalatest.Matchers
 
 import scala.concurrent.Await
 
-/**
-  * For app in doradilla
+/** For app in doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/12/14
   */
 class NamedJobRunnerSpec extends ActorTestClass with Matchers {
-  ProcessService.nameToClassOpt = ProcessServiceSpec.safeProcessServiceNameToClassOpt
+  override protected def beforeAll(): Unit = {
+    super.beforeAll()
+    ProcessService.nameToClassOpt = ProcessServiceSpec.safeProcessServiceNameToClassOpt
+  }
 
   import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -173,10 +177,10 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
   &quot;Named Job Runner&quot; should {
     &quot;start new driver when name is different&quot; in {
       val job1 = TestVars.sleepProcessJob
-      BackendServer.runNamedProcessCommand(job1, &quot;job1&quot;)
-      val job2 = TestVars.processJob
-      val resultFuture = BackendServer.runNamedProcessCommand(job2, &quot;job2&quot;)
-      val result = Await.ready(resultFuture, timeout)
+      BackendServer.runNamedProcessCommand(job1, &quot;job11&quot;)
+      val job2         = TestVars.processJob
+      val resultFuture = BackendServer.runNamedProcessCommand(job2, &quot;job12&quot;)
+      val result       = Await.ready(resultFuture, timeout)
       println(result)
     }
 
@@ -187,7 +191,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
         val job2 = TestVars.processJob
         BackendServer.changeFSMForNamedJob(&quot;job2&quot;, -1)
         val resultFuture = BackendServer.runNamedProcessCommand(job2, &quot;job2&quot;)
-        var timeOut = false
+        var timeOut      = false
         try {
           val result = Await.ready(resultFuture, timeout)
           println(result)
@@ -201,31 +205,35 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
     }
 
     &quot;use same driver when name same&quot; in {
-      val job1 = TestVars.sleepProcessJob
+      println(&quot;Start same driver test&quot;)
+      val job1          = TestVars.sleepProcessJob
       val result1Future = BackendServer.runNamedProcessCommand(job1, &quot;job3&quot;)
-      val job2 = TestVars.processJob
-      val resultFuture = BackendServer.runNamedProcessCommand(job2, &quot;job3&quot;)
-      var timeOut = false
+      val job2          = TestVars.processJob
+      val resultFuture  = BackendServer.runNamedProcessCommand(job2, &quot;job3&quot;)
+      var timeOut       = false
 
       try {
-        val result = Await.ready(resultFuture, timeout)
+        val result2 = Await.result(result1Future, timeout)
+        result2.result.asInstanceOf[ProcessResult].jobStatus == JobStatus.Failed
+        timeOut = true //For the execution failed for first
+        val result = Await.result(resultFuture, timeout)
         println(result)
       } catch {
         case exception: Exception =&gt;
           timeOut = true
           println(exception)
       }
+      println(&quot;end same driver test&quot;)
       timeOut shouldBe (true)
     }
-
 
     &quot;use same driver when name same with increased fsm &quot; in {
       val job1 = TestVars.sleepProcessJob
       BackendServer.changeFSMForNamedJob(&quot;job4&quot;, 1)
       val result1Future = BackendServer.runNamedProcessCommand(job1, &quot;job4&quot;)
-      val job2 = TestVars.processJob
-      val resultFuture = BackendServer.runNamedProcessCommand(job2, &quot;job4&quot;)
-      var timeOut = false
+      val job2          = TestVars.processJob
+      val resultFuture  = BackendServer.runNamedProcessCommand(job2, &quot;job4&quot;)
+      var timeOut       = false
 
       try {
         val result = Await.ready(resultFuture, timeout)
@@ -241,7 +249,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
 }</code></pre>
 <h2><a href="#fsmactor-number-control-for-named-jobapi" name="fsmactor-number-control-for-named-jobapi" class="anchor"><span class="anchor-link"></span></a>FSMActor number control for named JobApi</h2>
 <p>For named JobApi, there will create only one FSMActor, you can increase and decrease FSMActor by use api as below:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/doradilla/tree/v1.8.0.0/docs/src/main/paradox/usage/code/changefsm.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def changeFSMForNamedJob(jobName: String, num:Int)={
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/docs/src/main/paradox/usage/code/changefsm.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def changeFSMForNamedJob(jobName: String, num:Int)={
   val jobApi = getNamedJobApi(jobName)
   if(num &gt;0){
     jobApi.defaultDriver ! FSMIncrease(num)
@@ -250,7 +258,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
   }
 }</code></pre>
 <div class="source-github">
-The source code for this page can be found <a href="https://github.com/wherby/doradilla/tree/v1.8.0.0/docs/src/main/paradox/usage/namedjob.md">here</a>.
+The source code for this page can be found <a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+1-82cbcdc0-SNAPSHOT/docs/src/main/paradox/usage/namedjob.md">here</a>.
 </div>
 
 <div class="nav-next">
@@ -310,7 +318,7 @@ The source code for this page can be found <a href="https://github.com/wherby/do
 
 <!--
 <div class="copyright">
-<span class="text">&copy; 2020</span>
+<span class="text">&copy; 2023</span>
 <a href="https://www.example.com" class="logo">logo</a>
 </div>
 -->
@@ -335,7 +343,7 @@ The source code for this page can be found <a href="https://github.com/wherby/do
 <script type="text/javascript" src="../lib/prettify/prettify.js"></script>
 <script type="text/javascript" src="../lib/prettify/lang-scala.js"></script>
 <script type="text/javascript">jQuery(function(){window.prettyPrint && prettyPrint()});</script>
-<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '1.8.0.0', 'https://github.com/wherby/doradilla')});</script>
+<script type="text/javascript">jQuery(function(jq){initOldVersionWarnings(jq, '1.8.0.7.006+1-82cbcdc0-SNAPSHOT', 'https://github.com/wherby/dora')});</script>
 
 
 </html>
