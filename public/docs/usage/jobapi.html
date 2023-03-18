@@ -20,7 +20,7 @@
 
 <meta name="description" content="Description for dora library.">
 <link rel="shortcut icon" href="../assets/images/favicon.png">
-<title>JobApi · Doradilla</title>
+<title>JobApi · Dora</title>
 <link rel="stylesheet" href="../assets/stylesheets/application.451f80e5.css">
 <link rel="stylesheet" href="../lib/material__tabs/dist/mdc.tabs.min.css">
 <link rel="stylesheet" href="../lib/prettify/prettify.css">
@@ -43,7 +43,7 @@ code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}
 <nav class="md-header-nav md-grid">
 <div class="md-flex">
 <div class="md-flex__cell md-flex__cell--shrink">
-<a href="../index.html" title="Doradilla" class="md-header-nav__button md-logo">
+<a href="../index.html" title="Dora" class="md-header-nav__button md-logo">
 <i class="md-icon">local_library</i>
 </a>
 </div>
@@ -53,7 +53,7 @@ code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}
 <div class="md-flex__cell md-flex__cell--stretch">
 <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
 <span class="md-header-nav__topic">
-Doradilla
+Dora
 </span>
 <span class="md-header-nav__topic">
 JobApi
@@ -112,12 +112,12 @@ wherby/docs
 <div class="md-sidebar__inner">
 <nav class="md-nav md-nav--primary" data-md-level="0" style="visibility: hidden">
 <label class="md-nav__title md-nav__title--site" for="drawer">
-<a href="../index.html" title="Doradilla" class="md-nav__button md-logo">
+<a href="../index.html" title="Dora" class="md-nav__button md-logo">
 <span class="md-nav__button md-logo">
 <i class="md-icon">local_library</i>
 </a>
-<a href="../index.html" title="Doradilla">
-Doradilla
+<a href="../index.html" title="Dora">
+Dora
 </a>
 </label>
 <div class="md-nav__source">
@@ -163,7 +163,7 @@ wherby/docs
 <ul style="display: none">
 <li class="md-nav__item md-version" id="project.version">
 <label class="md-nav__link" for="__version">
-<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+2-f2c6adb7+20230318-1208*
+<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+3-badc4257*
 </label>
 </li>
 </ul>
@@ -193,7 +193,7 @@ wherby/docs
 <h2><a href="#whats-jobapi" name="whats-jobapi" class="anchor"><span class="anchor-link"></span></a>What&rsquo;s JobApi</h2>
 <p>JobApi is an interface and mixin of implementation of key functions in doradilla.</p>
 <p>Let&rsquo;s see what&rsquo;s JobApi:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+2-f2c6adb7+20230318-1208-SNAPSHOT/dora/src/main/scala/doracore/api/JobApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/dora/src/main/scala/doracore/api/JobApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.ActorSystem
 
@@ -220,7 +220,7 @@ class JobApi(systemOpt: Option[ActorSystem] = None)
 <dl>
   <dt>SystemApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+2-f2c6adb7+20230318-1208-SNAPSHOT/dora/src/main/scala/doracore/api/SystemApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/dora/src/main/scala/doracore/api/SystemApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.ActorSystem
 import akka.util.Timeout
@@ -255,7 +255,7 @@ class SystemApi(systemOpt: Option[ActorSystem] = None)
 }</code></pre></dd>
   <dt>DriverApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+2-f2c6adb7+20230318-1208-SNAPSHOT/dora/src/main/scala/doracore/api/DriverApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/dora/src/main/scala/doracore/api/DriverApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.{ActorRef}
 import doracore.core.driver.DriverActor
@@ -286,7 +286,7 @@ trait DriverApi {
 }</code></pre></dd>
   <dt>CommandTranApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+2-f2c6adb7+20230318-1208-SNAPSHOT/dora/src/main/scala/doracore/api/CommandTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/dora/src/main/scala/doracore/api/CommandTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import doracore.core.msg.Job.{JobMsg, JobRequest, JobResult}
 import doracore.tool.job.command.CommandTranActor
@@ -317,7 +317,7 @@ trait CommandTranApi extends AskProcessResult {
 }</code></pre></dd>
   <dt>ProcessTranApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+2-f2c6adb7+20230318-1208-SNAPSHOT/dora/src/main/scala/doracore/api/ProcessTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/dora/src/main/scala/doracore/api/ProcessTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import doracore.core.msg.Job.{JobMsg, JobRequest, JobResult}
 import doracore.tool.job.process.ProcessTranActor
@@ -351,13 +351,13 @@ trait ProcessTranApi extends AskProcessResult {
 </dl>
 </div>
 <div>
-<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+2-f2c6adb7+20230318-1208-SNAPSHOT/docs/src/main/paradox/usage/jobapi.md" title="Edit this page" class="md-source-file md-edit">
+<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/docs/src/main/paradox/usage/jobapi.md" title="Edit this page" class="md-source-file md-edit">
 Edit this page
 </a>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-1.8.0.7.006+2-f2c6adb7+20230318-1208*
+1.8.0.7.006+3-badc4257*
 </span>
 </div>
 </article>

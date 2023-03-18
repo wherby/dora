@@ -1,6 +1,6 @@
-# Doradilla
+# Dora
 
-This is the introduction for doradilla library.
+This is the introduction for dora library.
 
 @@toc { depth=1 }
 
