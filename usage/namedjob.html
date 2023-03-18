@@ -165,7 +165,7 @@ wherby/docs
 <ul style="display: none">
 <li class="md-nav__item md-version" id="project.version">
 <label class="md-nav__link" for="__version">
-<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+3-badc4257*
+<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+4-c64b317e+20230318-1225*
 </label>
 </li>
 </ul>
@@ -199,7 +199,7 @@ wherby/docs
 <p>When received a named job, the doradilla will create a named JobApi to handled the job.</p>
 <p><img src="pic/namedtask.png" alt="Named job" /></p>
 <p>The code implementation see <a href="/dora/src/main/scala/doradilla/back/NamedJobRunner.scala">Named job Runner</a>:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/docs/src/main/paradox/usage/code/namedjob.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">private def getNamedJobApi(jobName:String):JobApi={
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+4-c64b317e+20230318-1225-SNAPSHOT/docs/src/main/paradox/usage/code/namedjob.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">private def getNamedJobApi(jobName:String):JobApi={
   namedJobApiMap.get(jobName) match {
     case Some(jobApi) =&gt; jobApi
     case _=&gt; val jobApi: JobApi = new JobApi(Some( getActorSystem()))
@@ -218,7 +218,7 @@ def runNamedProcessCommand(processJob: JobMsg,
   getProcessCommandFutureResult(processJobRequest, jobApi.defaultDriver, receiveActor,timeout)
 }</code></pre>
 <h2><a href="#usage" name="usage" class="anchor"><span class="anchor-link"></span></a>Usage</h2>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/dora/src/test/scala/app/NamedJobRunnerSpec.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package app
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+4-c64b317e+20230318-1225-SNAPSHOT/dora/src/test/scala/app/NamedJobRunnerSpec.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package app
 
 import doracore.ActorTestClass
 import doracore.core.msg.Job.{JobMsg, JobStatus}
@@ -319,7 +319,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
 }</code></pre>
 <h2><a href="#fsmactor-number-control-for-named-jobapi" name="fsmactor-number-control-for-named-jobapi" class="anchor"><span class="anchor-link"></span></a>FSMActor number control for named JobApi</h2>
 <p>For named JobApi, there will create only one FSMActor, you can increase and decrease FSMActor by use api as below:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/docs/src/main/paradox/usage/code/changefsm.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def changeFSMForNamedJob(jobName: String, num:Int)={
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+4-c64b317e+20230318-1225-SNAPSHOT/docs/src/main/paradox/usage/code/changefsm.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def changeFSMForNamedJob(jobName: String, num:Int)={
   val jobApi = getNamedJobApi(jobName)
   if(num &gt;0){
     jobApi.defaultDriver ! FSMIncrease(num)
@@ -329,13 +329,13 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
 }</code></pre>
 </div>
 <div>
-<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+3-badc4257-SNAPSHOT/docs/src/main/paradox/usage/namedjob.md" title="Edit this page" class="md-source-file md-edit">
+<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+4-c64b317e+20230318-1225-SNAPSHOT/docs/src/main/paradox/usage/namedjob.md" title="Edit this page" class="md-source-file md-edit">
 Edit this page
 </a>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-1.8.0.7.006+3-badc4257*
+1.8.0.7.006+4-c64b317e+20230318-1225*
 </span>
 </div>
 </article>
@@ -343,13 +343,13 @@ Edit this page
 </div>
 </main>
 <footer class="md-footer">
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-LVLRXPE9ZP"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6XHLGL44CS"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 
-gtag('config', 'G-LVLRXPE9ZP');
+gtag('config', 'G-6XHLGL44CS');
 </script>
 <div class="md-footer-nav">
 <nav class="md-footer-nav__inner md-grid">
