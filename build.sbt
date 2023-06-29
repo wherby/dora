@@ -18,7 +18,7 @@ lazy val root = (project in file("."))
   .settings(commonSettings: _*)
   .settings(
     name := "dora",
-    publishArtifact := false//,
+    publishArtifact := false //,
     //mainClass := Some("io.github.wherby.dora.app.SimpleClusterApp") //object with,
   )
   .aggregate(dora, docs)
@@ -87,18 +87,20 @@ lazy val docs = (project in file("docs"))
   .settings(commonSettings: _*)
   .settings(
     name := "document for dora",
- Compile / paradoxMaterialTheme ~= {
-   ParadoxMaterialTheme()
-     .withColor("teal", "indigo")
-   _.withRepository(uri("https://github.com/wherby/docs"))
-     .withSocial(
-       uri("https://github.com/wherby"),
-       uri("https://wherby.github.io"))
- },
+    Compile / paradoxMaterialTheme ~= {
+      ParadoxMaterialTheme()
+        .withColor("teal", "indigo")
+      _.withRepository(uri("https://github.com/wherby/docs"))
+        .withSocial(
+          uri("https://github.com/wherby"),
+          uri("https://wherby.github.io")
+        )
+    },
     paradoxIllegalLinkPath := raw".*\\.md".r,
     paradoxProperties in Compile ++= Map(
       "project.description" -> "Description for dora library.",
-      "github.base_url" -> s"https://github.com/wherby/dora/tree/v${version.value}"
+      //"github.base_url" -> s"https://github.com/wherby/dora/tree/v${version.value}"
+      "github.base_url" -> s"https://github.com/wherby/dora/tree/v1.8.0.7.006"
     )
   )
 

@@ -11,7 +11,6 @@ addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 addSbtPlugin("com.lightbend.paradox" % "sbt-paradox" % "0.6.8")
 addSbtPlugin("io.github.jonas" % "sbt-paradox-material-theme" % "0.6.0")
 
-
 // code formatting https://scalameta.org/scalafmt/docs/installation.html
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0") // "2.4.0" is just sbt plugin version
 
@@ -20,4 +19,4 @@ addSbtPlugin("com.codecommit" % "sbt-github-actions" % "0.14.2")
 // https://github.com/sbt/sbt-ci-release
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.11")
 
-addDependencyTreePlugin
+//addDependencyTreePlugin

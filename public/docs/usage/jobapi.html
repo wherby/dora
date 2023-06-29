@@ -163,7 +163,7 @@ wherby/docs
 <ul style="display: none">
 <li class="md-nav__item md-version" id="project.version">
 <label class="md-nav__link" for="__version">
-<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+5-feece717+20230318-1242*
+<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+7-a57987e5+20230629-1448*
 </label>
 </li>
 </ul>
@@ -193,7 +193,7 @@ wherby/docs
 <h2><a href="#whats-jobapi" name="whats-jobapi" class="anchor"><span class="anchor-link"></span></a>What&rsquo;s JobApi</h2>
 <p>JobApi is an interface and mixin of implementation of key functions in doradilla.</p>
 <p>Let&rsquo;s see what&rsquo;s JobApi:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/dora/src/main/scala/doracore/api/JobApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006/dora/src/main/scala/doracore/api/JobApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.ActorSystem
 
@@ -220,7 +220,7 @@ class JobApi(systemOpt: Option[ActorSystem] = None)
 <dl>
   <dt>SystemApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/dora/src/main/scala/doracore/api/SystemApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006/dora/src/main/scala/doracore/api/SystemApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.ActorSystem
 import akka.util.Timeout
@@ -255,7 +255,7 @@ class SystemApi(systemOpt: Option[ActorSystem] = None)
 }</code></pre></dd>
   <dt>DriverApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/dora/src/main/scala/doracore/api/DriverApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006/dora/src/main/scala/doracore/api/DriverApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import akka.actor.{ActorRef}
 import doracore.core.driver.DriverActor
@@ -286,7 +286,7 @@ trait DriverApi {
 }</code></pre></dd>
   <dt>CommandTranApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/dora/src/main/scala/doracore/api/CommandTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006/dora/src/main/scala/doracore/api/CommandTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import doracore.core.msg.Job.{JobMsg, JobRequest, JobResult}
 import doracore.tool.job.command.CommandTranActor
@@ -317,7 +317,7 @@ trait CommandTranApi extends AskProcessResult {
 }</code></pre></dd>
   <dt>ProcessTranApi</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/dora/src/main/scala/doracore/api/ProcessTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006/dora/src/main/scala/doracore/api/ProcessTranApi.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
 
 import doracore.core.msg.Job.{JobMsg, JobRequest, JobResult}
 import doracore.tool.job.process.ProcessTranActor
@@ -351,13 +351,13 @@ trait ProcessTranApi extends AskProcessResult {
 </dl>
 </div>
 <div>
-<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/docs/src/main/paradox/usage/jobapi.md" title="Edit this page" class="md-source-file md-edit">
+<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006/docs/src/main/paradox/usage/jobapi.md" title="Edit this page" class="md-source-file md-edit">
 Edit this page
 </a>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-1.8.0.7.006+5-feece717+20230318-1242*
+1.8.0.7.006+7-a57987e5+20230629-1448*
 </span>
 </div>
 </article>
