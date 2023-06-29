@@ -164,7 +164,7 @@ wherby/docs
 <ul style="display: none">
 <li class="md-nav__item md-version" id="project.version">
 <label class="md-nav__link" for="__version">
-<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+6-217d1296+20230629-1415*
+<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+7-a57987e5+20230629-1448*
 </label>
 </li>
 </ul>
@@ -203,7 +203,7 @@ wherby/docs
 <p><img src="pic/service.png" alt="Services" /></p>
 <p>If all processors use same JobAPi, when one worker is taking &ldquo;OCR processor&rdquo; job, then one CPU on the host will be not well utilized.</p>
 <p>So the &ldquo;OCR processor&rdquo; could be assigned to another driver use the named job feature:</p>
-<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/paradox/usage/code/namedprocessor.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def runProcess(paras : List[AnyRef], clazzName:String, methodName:String, prioritySet: Option[Int] = None) ={
+<pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006/docs/src/main/paradox/usage/code/namedprocessor.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">def runProcess(paras : List[AnyRef], clazzName:String, methodName:String, prioritySet: Option[Int] = None) ={
     ....
     val namedSevice = Seq(&quot;com.pwc.ds.cidr.project.creditreview.processors.OcrPlusProcessor&quot;)
     if(namedSevice.contains(clazzName)){
@@ -218,13 +218,13 @@ wherby/docs
 <p><img src="./pic/p2.png" alt="named processor" /></p>
 </div>
 <div>
-<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/paradox/usage/usecase.md" title="Edit this page" class="md-source-file md-edit">
+<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006/docs/src/main/paradox/usage/usecase.md" title="Edit this page" class="md-source-file md-edit">
 Edit this page
 </a>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-1.8.0.7.006+6-217d1296+20230629-1415*
+1.8.0.7.006+7-a57987e5+20230629-1448*
 </span>
 </div>
 </article>
