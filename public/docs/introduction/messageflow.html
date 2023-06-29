@@ -150,16 +150,39 @@ wherby/docs
   <li><a href="../configuration.html" class="page">Configuration</a></li>
 </ul>
 <nav class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">Table of contents</label>
+<ul>
+  <li><a href="../introduction/messageflow.html#message-flow" class="header">Message flow</a>
+  <ul>
+    <li><a href="../introduction/messageflow.html#jobrequest-flow" class="header">JobRequest flow</a></li>
+  </ul></li>
+</ul>
 </nav>
 
 </nav>
 <ul style="display: none">
 <li class="md-nav__item md-version" id="project.version">
 <label class="md-nav__link" for="__version">
-<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+5-feece717+20230318-1242*
+<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+6-217d1296+20230629-1415*
 </label>
 </li>
 </ul>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">Table of contents</label>
+<ul>
+  <li><a href="../introduction/messageflow.html#message-flow" class="header">Message flow</a>
+  <ul>
+    <li><a href="../introduction/messageflow.html#jobrequest-flow" class="header">JobRequest flow</a></li>
+  </ul></li>
+</ul>
+</nav>
+
 </div>
 </div>
 </div>
@@ -168,15 +191,146 @@ wherby/docs
 <div class="md-content__searchable">
 <h1><a href="#message-flow" name="message-flow" class="anchor"><span class="anchor-link"></span></a>Message flow</h1>
 <p><img src="./msgflow.jpg" alt="msgflow" /></p>
+<h1><a href="#jobrequest-flow" name="jobrequest-flow" class="anchor"><span class="anchor-link"></span></a>JobRequest flow</h1>
+<h2><a href="#jobrequest" name="jobrequest" class="anchor"><span class="anchor-link"></span></a>JobRequest</h2>
+<pre class="prettyprint"><code class="language-Scala">  case class JobRequest(
+      taskMsg: JobMsg,
+      replyTo: ActorRef,
+      tranActor: ActorRef,
+      priority: Option[Int] = None,
+      jobMetaOpt: Option[JobMeta] = None
+  )
+</code></pre>
+<p><img src="./driver.png" alt="JobMessage flow" /></p>
+<h2><a href="#receiveactor" name="receiveactor" class="anchor"><span class="anchor-link"></span></a>ReceiveActor</h2>
+<p>The AskProcessResult using ReceiveActor create a API to trigger jobrequest call of ( jobRequest: JobRequest, driver: ActorRef, receiveActor: ActorRef, timeout: Timeout) =&gt;Future[JobResult], and ReceiveActor is &ldquo;RequestActor&rdquo; in the JobRequest work flow chat.</p>
+<dl>
+  <dt>AskProcessResult</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/paradox/introduction/code/AskProcessResult.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.api
+
+import akka.actor.{ActorRef, PoisonPill}
+import akka.event.slf4j.Logger
+import akka.util.Timeout
+import doracore.core.msg.Job.{JobRequest, JobResult, JobStatus}
+import doracore.tool.receive.ReceiveActor.{FetchResult, ProxyControlMsg}
+
+import scala.concurrent.{ExecutionContext, Future}
+import akka.pattern.ask
+import doracore.util.ProcessService.ProcessResult
+
+trait AskProcessResult {
+  this: GetBlockIOExecutor =&gt;
+  def getProcessCommandFutureResult(
+      jobRequest: JobRequest,
+      driver: ActorRef,
+      receiveActor: ActorRef,
+      timeout: Timeout
+  ): Future[JobResult] = {
+    driver.tell(jobRequest, receiveActor)
+    getResult(receiveActor, timeout)
+  }
+  def getResult(receiveActor: ActorRef, timeout: Timeout): Future[JobResult] = {
+    implicit val ex: ExecutionContext  = getBlockDispatcher()
+    implicit val timeoutValue: Timeout = timeout
+    var result                         = JobResult(JobStatus.Unknown, &quot;Unkonwn&quot;).asInstanceOf[Any]
+    (receiveActor ? FetchResult())
+      .map { resultT =&gt;
+        resultT.asInstanceOf[JobResult]
+      }
+      .recover { case ex: Throwable =&gt;
+        val tName = Thread.currentThread.getName
+        Logger.apply(this.getClass.getName).error(s&quot;$tName=&gt; Job timeout after $timeout&quot;)
+        result = JobResult(JobStatus.TimeOut, ProcessResult(JobStatus.Failed, ex))
+        receiveActor ! ProxyControlMsg(result)
+        Thread.sleep(100)
+        result.asInstanceOf[JobResult]
+      }
+      .map { result =&gt;
+        receiveActor ! ProxyControlMsg(PoisonPill)
+        receiveActor ! PoisonPill
+        result
+      }
+  }
+}</code></pre></dd>
+  <dt>ReceiveActor</dt>
+  <dd>
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/paradox/introduction/code/ReceiveActor.scala" target="_blank" title="Go to snippet source"></a><code class="language-scala">package doracore.tool.receive
+
+import akka.actor.{ActorRef, Props}
+import doracore.base.BaseActor
+import doracore.core.driver.DriverActor.ProxyActorMsg
+import doracore.core.msg.Job.JobResult
+import doracore.tool.receive.ReceiveActor.{FetchResult, ProxyControlMsg, QueryResult}
+
+/** For doradilla.tool.receive in Doradilla
+  * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/13
+  */
+class ReceiveActor extends BaseActor {
+  var retriverActorOpt: Option[ActorRef] = None
+  var jobResultOpt: Option[JobResult]    = None
+  var proxyActorOpt: Option[ActorRef]    = None
+
+  def sendBackReuslt() = {
+    retriverActorOpt.get ! jobResultOpt.get
+  }
+
+  def handleFetchMsg() = {
+    retriverActorOpt = Some(sender())
+    jobResultOpt match {
+      case Some(jobResult) =&gt; sendBackReuslt()
+      case _               =&gt;
+    }
+  }
+
+  def handleJobResult(jobResult: JobResult) = {
+    jobResultOpt = Some(jobResult)
+    retriverActorOpt match {
+      case Some(retriverActor) =&gt; sendBackReuslt()
+      case _                   =&gt;
+    }
+  }
+
+  def handleProxyActorMsg(msg: ProxyActorMsg) = {
+    proxyActorOpt = Some(msg.proxyActor)
+  }
+
+  def handleProxyControlMsg(proxyControlMsg: ProxyControlMsg) = {
+    proxyActorOpt.map { proxyActor =&gt;
+      proxyActor ! proxyControlMsg.proxyControlMsg
+    }
+  }
+
+  def handleQueryResult() = {
+    sender() ! jobResultOpt
+  }
+
+  override def receive: Receive = {
+    case msg: FetchResult                 =&gt; handleFetchMsg()
+    case jobResult: JobResult             =&gt; handleJobResult(jobResult)
+    case proxyActorMsg: ProxyActorMsg     =&gt; handleProxyActorMsg(proxyActorMsg)
+    case queryResult: QueryResult         =&gt; handleQueryResult()
+    case proxyControlMsg: ProxyControlMsg =&gt; handleProxyControlMsg(proxyControlMsg)
+  }
+}
+
+object ReceiveActor {
+  val receiveActorProps = Props(new ReceiveActor())
+  case class FetchResult()
+  case class StopProxy()
+  case class QueryResult()
+  case class ProxyControlMsg(proxyControlMsg: Any)
+}</code></pre></dd>
+</dl>
 </div>
 <div>
-<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/docs/src/main/paradox/introduction/messageflow.md" title="Edit this page" class="md-source-file md-edit">
+<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/paradox/introduction/messageflow.md" title="Edit this page" class="md-source-file md-edit">
 Edit this page
 </a>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-1.8.0.7.006+5-feece717+20230318-1242*
+1.8.0.7.006+6-217d1296+20230629-1415*
 </span>
 </div>
 </article>

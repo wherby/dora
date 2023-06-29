@@ -154,10 +154,10 @@ wherby/docs
 <ul>
   <li><a href="overview.html#overview" class="header">Overview</a>
   <ul>
-    <li><a href="overview.html#doradilla-core" class="header">Doradilla-core</a></li>
+    <li><a href="overview.html#dora" class="header">Dora</a></li>
     <li><a href="overview.html#dependency" class="header">Dependency</a></li>
     <li><a href="overview.html#whats-the-problem-the-library-resolve-" class="header">What&rsquo;s the problem the library resolve?</a></li>
-    <li><a href="overview.html#how-the-doradilla-library-works-" class="header">How the Doradilla library works?</a></li>
+    <li><a href="overview.html#how-the-dora-library-works-" class="header">How the Dora library works?</a></li>
     <li><a href="overview.html#quick-start" class="header">Quick start</a></li>
   </ul></li>
 </ul>
@@ -167,7 +167,7 @@ wherby/docs
 <ul style="display: none">
 <li class="md-nav__item md-version" id="project.version">
 <label class="md-nav__link" for="__version">
-<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+5-feece717+20230318-1242*
+<i class="md-icon" title="Version">label_outline</i> 1.8.0.7.006+6-217d1296+20230629-1415*
 </label>
 </li>
 </ul>
@@ -182,10 +182,10 @@ wherby/docs
 <ul>
   <li><a href="overview.html#overview" class="header">Overview</a>
   <ul>
-    <li><a href="overview.html#doradilla-core" class="header">Doradilla-core</a></li>
+    <li><a href="overview.html#dora" class="header">Dora</a></li>
     <li><a href="overview.html#dependency" class="header">Dependency</a></li>
     <li><a href="overview.html#whats-the-problem-the-library-resolve-" class="header">What&rsquo;s the problem the library resolve?</a></li>
-    <li><a href="overview.html#how-the-doradilla-library-works-" class="header">How the Doradilla library works?</a></li>
+    <li><a href="overview.html#how-the-dora-library-works-" class="header">How the Dora library works?</a></li>
     <li><a href="overview.html#quick-start" class="header">Quick start</a></li>
   </ul></li>
 </ul>
@@ -198,32 +198,32 @@ wherby/docs
 <article class="md-content__inner md-typeset">
 <div class="md-content__searchable">
 <h1><a href="#overview" name="overview" class="anchor"><span class="anchor-link"></span></a>Overview</h1>
-<h2><a href="#doradilla-core" name="doradilla-core" class="anchor"><span class="anchor-link"></span></a>Doradilla-core</h2>
-<p>Doradilla-core is a job manage system which will handle the job request in reactive way.</p>
-<h2><a href="#dependency" name="dependency" class="anchor"><span class="anchor-link"></span></a>Dependency</h2><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "io.github.wherby" %% "doradilla-core" % "1.7.3.1"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
+<h2><a href="#dora" name="dora" class="anchor"><span class="anchor-link"></span></a>Dora</h2>
+<p>Dora is a job manage system which will handle the job request in reactive way.</p>
+<h2><a href="#dependency" name="dependency" class="anchor"><span class="anchor-link"></span></a>Dependency</h2><dl class="dependency"><dt>sbt</dt><dd><pre class="prettyprint"><code class="language-scala">libraryDependencies += "io.github.wherby" % "dora_2.13" % "1.8.0.7.006"</code></pre></dd><dt>Maven</dt><dd><pre class="prettyprint"><code class="language-xml">&lt;dependency&gt;
   &lt;groupId&gt;io.github.wherby&lt;/groupId&gt;
-  &lt;artifactId&gt;doradilla-core_2.12&lt;/artifactId&gt;
-  &lt;version&gt;1.7.3.1&lt;/version&gt;
+  &lt;artifactId&gt;dora_2.13&lt;/artifactId&gt;
+  &lt;version&gt;1.8.0.7.006&lt;/version&gt;
 &lt;/dependency&gt;</code></pre></dd><dt>Gradle</dt><dd><pre class="prettyprint"><code class="language-gradle">dependencies {
-  compile group: 'io.github.wherby', name: 'doradilla-core_2.12', version: '1.7.3.1'
+  compile group: 'io.github.wherby', name: 'dora_2.13', version: '1.8.0.7.006'
 }</code></pre></dd></dl>
 <h2><a href="#whats-the-problem-the-library-resolve-" name="whats-the-problem-the-library-resolve-" class="anchor"><span class="anchor-link"></span></a>What&rsquo;s the problem the library resolve?</h2>
 <p>The library provide a reactive way to handle resource consuming(CPU, Memory, DB connection) tasks.</p>
 <p>For example, an OCR application which will trigger OCR tasks based on requests, for each OCR task there needs one CPU core occupied. If there is no implementation of job management, the CPUs will be easily taken by OCR jobs. The CPU competition will easily slow down the processing and block other function.</p>
 <p>What&rsquo;s the traditional way to solve the issue is create a job queue, and use a worker to takes job from the queue.</p>
 <p>Is there any universal way to resolve this type of question and makes the implementation easy to use? </p>
-<p>Yes, just use the Doradilla library.</p>
-<h2><a href="#how-the-doradilla-library-works-" name="how-the-doradilla-library-works-" class="anchor"><span class="anchor-link"></span></a>How the Doradilla library works?</h2>
+<p>Yes, just use the Dora library.</p>
+<h2><a href="#how-the-dora-library-works-" name="how-the-dora-library-works-" class="anchor"><span class="anchor-link"></span></a>How the Dora library works?</h2>
 <p>Simple version: </p>
-<p>The Doradilla library use a queue to keep job requests and FSMActor will pull job request to process. </p>
+<p>The Dora library use a queue to keep job requests and FSMActor will pull job request to process. </p>
 <p>Is the same way as traditional way?</p>
-<p>Yes, but not, because the user will not aware of the library implementation. The example shows user call the job api. The Doradilla library will handle the travail work.</p>
+<p>Yes, but not, because the user will not aware of the library implementation. The example shows user call the job api. The Dora library will handle the travail work.</p>
 <h2><a href="#quick-start" name="quick-start" class="anchor"><span class="anchor-link"></span></a>Quick start</h2>
-<p>To use doradilla library to handle request see:</p>
+<p>To use dora library to handle request see:</p>
 <dl>
   <dt>run job sync</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/docs/src/main/scala/runjob.md" target="_blank" title="Go to snippet source"></a><code class="language-md">&quot;start and run command &quot; in {
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/scala/runjob.md" target="_blank" title="Go to snippet source"></a><code class="language-md">&quot;start and run command &quot; in {
   val backendServer = BackendServer.startup(Some(1600))
   backendServer.registFSMActor()
   val msg = TestVars.processCallMsgTest
@@ -237,7 +237,7 @@ wherby/docs
 }</code></pre></dd>
   <dt>run job async</dt>
   <dd>
-  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/docs/src/main/scala/asyncrun.md" target="_blank" title="Go to snippet source"></a><code class="language-md">&quot;start the command and qurey result &quot; in {
+  <pre class="prettyprint"><a class="icon go-to-source" href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/scala/asyncrun.md" target="_blank" title="Go to snippet source"></a><code class="language-md">&quot;start the command and qurey result &quot; in {
   ProcessService.nameToClassOpt = ProcessServiceSpec.safeProcessServiceNameToClassOpt
   val backendServer = BackendServer.startup(Some(1600))
   backendServer.registFSMActor()
@@ -253,16 +253,16 @@ wherby/docs
   Await.ready(res, ConstVars.timeout1S*4)
 }</code></pre></dd>
 </dl>
-<p>For more usage see : <a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/doradilla-core/src/test/scala/app/BackendSpec.scala">BackendSpec.scala</a></p>
+<p>For more usage see : <a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/dora/src/test/scala/app/BackendSpec.scala">BackendSpec.scala</a></p>
 </div>
 <div>
-<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+5-feece717+20230318-1242-SNAPSHOT/docs/src/main/paradox/overview.md" title="Edit this page" class="md-source-file md-edit">
+<a href="https://github.com/wherby/dora/tree/v1.8.0.7.006+6-217d1296+20230629-1415-SNAPSHOT/docs/src/main/paradox/overview.md" title="Edit this page" class="md-source-file md-edit">
 Edit this page
 </a>
 </div>
 <div class="print-only">
 <span class="md-source-file md-version">
-1.8.0.7.006+5-feece717+20230318-1242*
+1.8.0.7.006+6-217d1296+20230629-1415*
 </span>
 </div>
 </article>
