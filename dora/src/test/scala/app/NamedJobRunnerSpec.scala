@@ -1,16 +1,17 @@
 package app
 
 import doracore.ActorTestClass
-import doracore.core.msg.Job.{JobMsg, JobStatus}
-import doracore.core.msg.Job.JobStatus.JobStatus
+import doracore.core.msg.Job.{JobMeta, JobMsg, JobStatus}
+import doracore.core.msg.Job.JobStatus.{JobStatus, TimeOut}
 import doracore.util.ProcessService.ProcessResult
 import doracore.util.{ProcessService, ProcessServiceSpec}
 import doracore.vars.ConstVars
 import doradilla.back.BackendServer
 import doradilla.conf.TestVars
 import org.scalatest.Matchers
+import play.api.libs.json.JsResult.Exception
 
-import scala.concurrent.Await
+import scala.concurrent.{Await, Future}
 
 /** For app in doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/12/14
@@ -27,12 +28,33 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
   "Named Job Runner" should {
     "start new driver when name is different" in {
       val job1 = TestVars.sleepProcessJob
-      BackendServer.runNamedProcessCommand(job1, "job11")
+      BackendServer.runNamedProcessCommand(job1, "job11",metaOpt = Some(JobMeta("NewNameJob1")))
       val job2         = TestVars.processJob
-      val resultFuture = BackendServer.runNamedProcessCommand(job2, "job12")
+      val resultFuture = BackendServer.runNamedProcessCommand(job2, "job12",metaOpt = Some(JobMeta("NewNameJob2")))
       val result       = Await.ready(resultFuture, timeout)
       println(result)
     }
+
+    "Name Job with Meta" must{
+      "run job in sequece the sleep operation will block following operation and time out will go" in{
+        val job1 = TestVars.sleepProcessJob
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")))
+        val job2         = TestVars.processJob
+        val resultFuture = BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
+        val result       =
+          try{
+            Await.ready(resultFuture, timeout)
+          }catch {
+            case _:Throwable =>Future("TimeOutError")
+          }
+        result.map{
+          a =>
+            a shouldBe("TimeOutError")
+            println(a)
+        }
+      }
+    }
+
 
     "Named Job Runner" should {
       "start new driver when name is different but will failed without fsm " in {
@@ -46,7 +68,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
           val result = Await.ready(resultFuture, timeout)
           println(result)
         } catch {
-          case exception: Exception =>
+          case exception: Throwable =>
             timeOut = true
             println(exception)
         }
@@ -69,7 +91,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
         val result = Await.result(resultFuture, timeout)
         println(result)
       } catch {
-        case exception: Exception =>
+        case exception: Throwable =>
           timeOut = true
           println(exception)
       }
