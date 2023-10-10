@@ -1,6 +1,7 @@
 package doracore.core.fsm
 
 import akka.actor.{ActorLogging, ActorRef, Cancellable, FSM, PoisonPill, Props}
+import akka.event.Logging
 import doracore.base.BaseActor
 import doracore.base.query.QueryTrait.{ChildInfo, QueryChild}
 import doracore.core.driver.DriverActor.FSMDecrease
@@ -101,8 +102,7 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
   when(Active) {
     case Event(jobEnd: JobEnd, task: Task) =>
       if (jobEnd.requestMsg.jobMetaOpt == jobMetaOpt) {
-        println(jobEnd.requestMsg.jobMetaOpt)
-        println(jobMetaOpt)
+        log.log(Logging.InfoLevel,s"$jobMetaOpt is end")
         goto(Idle) using (Uninitialized)
       } else {
         stay()

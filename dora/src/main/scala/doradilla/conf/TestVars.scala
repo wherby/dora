@@ -25,7 +25,7 @@ object TestVars {
     ProcessCallMsg("doracore.util.CommandServiceProcessor", "runCommandSync", paras)
   val processJob = JobMsg("SimpleProcess", processCallMsgTest)
 
-  val commandWinSleep   = List("cmd.exe", "/c", "ping 127.0.0.1 -n 60 > nul")
+  val commandWinSleep   = List("cmd.exe", "/c", "ping 127.0.0.1 -n 6 > nul")
   val commandLinuxSleep = List("sleep", " 100")
 
   val sleepCommand = osString.toLowerCase() match {
