@@ -34,7 +34,7 @@ trait AskProcessResult {
         Logger.apply(this.getClass.getName).error(s"$tName=> Job timeout after $timeout")
         result = JobResult(JobStatus.TimeOut, ProcessResult(JobStatus.Failed, ex))
         receiveActor ! ProxyControlMsg(result)
-        Thread.sleep(100)
+        receiveActor ! PoisonPill
         result.asInstanceOf[JobResult]
       }
       .map { result =>

@@ -64,22 +64,31 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
 
         val job2         = TestVars.processJob
         BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
+        //Thread.sleep(3000)
         Thread.sleep(3000)
         BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        Thread.sleep(3000)
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        Thread.sleep(3000)
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        Thread.sleep(3000)
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        Thread.sleep(3000)
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        Thread.sleep(3000)
         val resultFuture = BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
         val result       =
           try{
-            Await.ready(resultFuture, timeout*2)
+            Await.ready(resultFuture, timeout*4)
           }catch {
             case _:Throwable =>Future("TimeOutError")
           }
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
 
         println("s")
         println(result)
         println("XX")
 
-        Thread.sleep(10000)
+        Thread.sleep(2000)
       }
     }
 
