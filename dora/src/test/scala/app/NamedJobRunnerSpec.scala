@@ -55,6 +55,34 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
       }
     }
 
+    "Name Job with Meta" must{
+      "run job in sequece the sleep operation will not block following operation and time out will go" in{
+        val job1 = TestVars.sleepProcessJob
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        //BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        //BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+
+        val job2         = TestVars.processJob
+        BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
+        Thread.sleep(3000)
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        val resultFuture = BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
+        val result       =
+          try{
+            Await.ready(resultFuture, timeout*2)
+          }catch {
+            case _:Throwable =>Future("TimeOutError")
+          }
+        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+
+        println("s")
+        println(result)
+        println("XX")
+
+        Thread.sleep(10000)
+      }
+    }
+
 
     "Named Job Runner" should {
       "start new driver when name is different but will failed without fsm " in {
