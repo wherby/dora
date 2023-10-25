@@ -78,11 +78,11 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
           job1,
           "job13",
           metaOpt = Some(JobMeta("NewNameJob1")),
-          timeout = ConstVars.timeout1S
+          timeout = ConstVars.timeout1S*2
         )
         //BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
         //BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
-        Thread.sleep(3000)
+        //Thread.sleep(3000)
         val job2 = TestVars.processJob
         BackendServer.runNamedProcessCommand(
           job2,
@@ -90,39 +90,39 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
           metaOpt = Some(JobMeta("NewNameJob2"))
         )
         //Thread.sleep(3000)
-        Thread.sleep(3000)
+       //Thread.sleep(3000)
         BackendServer.runNamedProcessCommand(
           job1,
           "job13",
           metaOpt = Some(JobMeta("NewNameJob1")),
           timeout = ConstVars.timeout1S
         )
-        Thread.sleep(3000)
+        //Thread.sleep(3000)
         BackendServer.runNamedProcessCommand(
           job1,
           "job13",
           metaOpt = Some(JobMeta("NewNameJob1")),
           timeout = ConstVars.timeout1S
         )
-        Thread.sleep(3000)
+        //Thread.sleep(3000)
         BackendServer.runNamedProcessCommand(
           job1,
           "job13",
           metaOpt = Some(JobMeta("NewNameJob1")),
           timeout = ConstVars.timeout1S
         )
-        Thread.sleep(3000)
+        //Thread.sleep(3000)
         BackendServer.runNamedProcessCommand(
           job1,
           "job13",
-          metaOpt = Some(JobMeta("NewNameJob1")),
+          metaOpt = Some(JobMeta("NewNameJob15")),
           timeout = ConstVars.timeout1S
         )
-        Thread.sleep(3000)
+        //Thread.sleep(3000)
         BackendServer.runNamedProcessCommand(
           job1,
           "job13",
-          metaOpt = Some(JobMeta("NewNameJob1")),
+          metaOpt = Some(JobMeta("NewNameJob16")),
           timeout = ConstVars.timeout1S
         )
         Thread.sleep(3000)

@@ -35,7 +35,7 @@ trait AskProcessResult {
             .error(s"$tName=> Job timeout after $timeout")
           result =
             JobResult(JobStatus.TimeOut, ProcessResult(JobStatus.Failed, ex))
-          receiveActor ! ProxyControlMsg(JobStatus.TimeOut)
+          receiveActor ! ProxyControlMsg(JobStatus.Canceled)
           //receiveActor ! PoisonPill
           result.asInstanceOf[JobResult]
       }
