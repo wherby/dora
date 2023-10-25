@@ -12,30 +12,32 @@ import doracore.util.ProcessService.ProcessResult
 
 trait AskProcessResult {
   this: GetBlockIOExecutor =>
-  def getProcessCommandFutureResult(
-      jobRequest: JobRequest,
-      driver: ActorRef,
-      receiveActor: ActorRef,
-      timeout: Timeout
-  ): Future[JobResult] = {
+  def getProcessCommandFutureResult(jobRequest: JobRequest,
+                                    driver: ActorRef,
+                                    receiveActor: ActorRef,
+                                    timeout: Timeout): Future[JobResult] = {
     driver.tell(jobRequest, receiveActor)
     getResult(receiveActor, timeout)
   }
   def getResult(receiveActor: ActorRef, timeout: Timeout): Future[JobResult] = {
-    implicit val ex: ExecutionContext  = getBlockDispatcher()
+    implicit val ex: ExecutionContext = getBlockDispatcher()
     implicit val timeoutValue: Timeout = timeout
-    var result                         = JobResult(JobStatus.Unknown, "Unkonwn").asInstanceOf[Any]
+    var result = JobResult(JobStatus.Unknown, "Unkonwn").asInstanceOf[Any]
     (receiveActor ? FetchResult())
       .map { resultT =>
         resultT.asInstanceOf[JobResult]
       }
-      .recover { case ex: Throwable =>
-        val tName = Thread.currentThread.getName
-        Logger.apply(this.getClass.getName).error(s"$tName=> Job timeout after $timeout")
-        result = JobResult(JobStatus.TimeOut, ProcessResult(JobStatus.Failed, ex))
-        receiveActor ! ProxyControlMsg(result)
-        receiveActor ! PoisonPill
-        result.asInstanceOf[JobResult]
+      .recover {
+        case ex: Throwable =>
+          val tName = Thread.currentThread.getName
+          Logger
+            .apply(this.getClass.getName)
+            .error(s"$tName=> Job timeout after $timeout")
+          result =
+            JobResult(JobStatus.TimeOut, ProcessResult(JobStatus.Failed, ex))
+          receiveActor ! ProxyControlMsg(JobStatus.TimeOut)
+          //receiveActor ! PoisonPill
+          result.asInstanceOf[JobResult]
       }
       .map { result =>
         receiveActor ! ProxyControlMsg(PoisonPill)

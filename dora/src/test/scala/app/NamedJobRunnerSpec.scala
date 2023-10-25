@@ -19,7 +19,8 @@ import scala.concurrent.{Await, Future}
 class NamedJobRunnerSpec extends ActorTestClass with Matchers {
   override protected def beforeAll(): Unit = {
     super.beforeAll()
-    ProcessService.nameToClassOpt = ProcessServiceSpec.safeProcessServiceNameToClassOpt
+    ProcessService.nameToClassOpt =
+      ProcessServiceSpec.safeProcessServiceNameToClassOpt
   }
 
   import scala.concurrent.ExecutionContext.Implicits.global
@@ -28,60 +29,113 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
   "Named Job Runner" should {
     "start new driver when name is different" in {
       val job1 = TestVars.sleepProcessJob
-      BackendServer.runNamedProcessCommand(job1, "job11",metaOpt = Some(JobMeta("NewNameJob1")))
-      val job2         = TestVars.processJob
-      val resultFuture = BackendServer.runNamedProcessCommand(job2, "job12",metaOpt = Some(JobMeta("NewNameJob2")))
-      val result       = Await.ready(resultFuture, timeout)
+      BackendServer.runNamedProcessCommand(
+        job1,
+        "job11",
+        metaOpt = Some(JobMeta("NewNameJob1"))
+      )
+      val job2 = TestVars.processJob
+      val resultFuture = BackendServer.runNamedProcessCommand(
+        job2,
+        "job12",
+        metaOpt = Some(JobMeta("NewNameJob2"))
+      )
+      val result = Await.ready(resultFuture, timeout)
       println(result)
     }
 
-    "Name Job with Meta" must{
-      "run job in sequece the sleep operation will block following operation and time out will go" in{
+    "Name Job with Meta" must {
+      "run job in sequece the sleep operation will block following operation and time out will go" in {
         val job1 = TestVars.sleepProcessJob
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")))
-        val job2         = TestVars.processJob
-        val resultFuture = BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
-        val result       =
-          try{
+        BackendServer.runNamedProcessCommand(
+          job1,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob1"))
+        )
+        val job2 = TestVars.processJob
+        val resultFuture = BackendServer.runNamedProcessCommand(
+          job2,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob2"))
+        )
+        val result =
+          try {
             Await.ready(resultFuture, timeout)
-          }catch {
-            case _:Throwable =>Future("TimeOutError")
+          } catch {
+            case _: Throwable => Future("TimeOutError")
           }
-        result.map{
-          a =>
-            a shouldBe("TimeOutError")
-            println(a)
+        result.map { a =>
+          a shouldBe ("TimeOutError")
+          println(a)
         }
       }
     }
 
-    "Name Job with Meta" must{
-      "run job in sequece the sleep operation will not block following operation and time out will go" in{
+    "Name Job with Meta" must {
+      "run job in sequece the sleep operation will not block following operation and time out will go" in {
         val job1 = TestVars.sleepProcessJob
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        BackendServer.runNamedProcessCommand(
+          job1,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob1")),
+          timeout = ConstVars.timeout1S
+        )
         //BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
         //BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
-
-        val job2         = TestVars.processJob
-        BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
+        Thread.sleep(3000)
+        val job2 = TestVars.processJob
+        BackendServer.runNamedProcessCommand(
+          job2,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob2"))
+        )
         //Thread.sleep(3000)
         Thread.sleep(3000)
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        BackendServer.runNamedProcessCommand(
+          job1,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob1")),
+          timeout = ConstVars.timeout1S
+        )
         Thread.sleep(3000)
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        BackendServer.runNamedProcessCommand(
+          job1,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob1")),
+          timeout = ConstVars.timeout1S
+        )
         Thread.sleep(3000)
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        BackendServer.runNamedProcessCommand(
+          job1,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob1")),
+          timeout = ConstVars.timeout1S
+        )
         Thread.sleep(3000)
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        BackendServer.runNamedProcessCommand(
+          job1,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob1")),
+          timeout = ConstVars.timeout1S
+        )
         Thread.sleep(3000)
-        BackendServer.runNamedProcessCommand(job1, "job13",metaOpt = Some(JobMeta("NewNameJob1")),timeout=ConstVars.timeout1S  )
+        BackendServer.runNamedProcessCommand(
+          job1,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob1")),
+          timeout = ConstVars.timeout1S
+        )
         Thread.sleep(3000)
-        val resultFuture = BackendServer.runNamedProcessCommand(job2, "job13",metaOpt = Some(JobMeta("NewNameJob2")))
-        val result       =
-          try{
-            Await.ready(resultFuture, timeout*4)
-          }catch {
-            case _:Throwable =>Future("TimeOutError")
+        val resultFuture = BackendServer.runNamedProcessCommand(
+          job2,
+          "job13",
+          metaOpt = Some(JobMeta("NewNameJob2"))
+        )
+        val result =
+          try {
+            Await.ready(resultFuture, timeout)
+          } catch {
+            case _: Throwable => Future("TimeOutError")
           }
 
         println("s")
@@ -92,7 +146,6 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
       }
     }
 
-
     "Named Job Runner" should {
       "start new driver when name is different but will failed without fsm " in {
         val job1 = TestVars.sleepProcessJob
@@ -100,7 +153,7 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
         val job2 = TestVars.processJob
         BackendServer.changeFSMForNamedJob("job2", -1)
         val resultFuture = BackendServer.runNamedProcessCommand(job2, "job2")
-        var timeOut      = false
+        var timeOut = false
         try {
           val result = Await.ready(resultFuture, timeout)
           println(result)
@@ -115,11 +168,11 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
 
     "use same driver when name same" in {
       println("Start same driver test")
-      val job1          = TestVars.sleepProcessJob
+      val job1 = TestVars.sleepProcessJob
       val result1Future = BackendServer.runNamedProcessCommand(job1, "job3")
-      val job2          = TestVars.processJob
-      val resultFuture  = BackendServer.runNamedProcessCommand(job2, "job3")
-      var timeOut       = false
+      val job2 = TestVars.processJob
+      val resultFuture = BackendServer.runNamedProcessCommand(job2, "job3")
+      var timeOut = false
 
       try {
         val result2 = Await.result(result1Future, timeout)
@@ -140,9 +193,9 @@ class NamedJobRunnerSpec extends ActorTestClass with Matchers {
       val job1 = TestVars.sleepProcessJob
       BackendServer.changeFSMForNamedJob("job4", 1)
       val result1Future = BackendServer.runNamedProcessCommand(job1, "job4")
-      val job2          = TestVars.processJob
-      val resultFuture  = BackendServer.runNamedProcessCommand(job2, "job4")
-      var timeOut       = false
+      val job2 = TestVars.processJob
+      val resultFuture = BackendServer.runNamedProcessCommand(job2, "job4")
+      var timeOut = false
 
       try {
         val result = Await.ready(resultFuture, timeout)
