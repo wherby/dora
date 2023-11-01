@@ -59,7 +59,7 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
   def setTimeOutCheck() = {
     timeoutConf.map { timeout =>
       val delay: FiniteDuration = timeout.seconds
-      log.debug(s"set timeout ot $timeout with $delay")
+      log.info(s"set fsm timeout ot $timeout with $delay")
       cancelableSchedulerOpt =
         Some(context.system.scheduler.scheduleOnce(delay, self, FSMTimeout("FSMtimeout"))(ex))
     }
@@ -87,6 +87,7 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
   }
 
   onTransition { case Active -> Idle =>
+    log.info("Finish job and resetting state to start another job...")
     CleanCancelScheduler()
     endChildActor()
     driverActor ! FetchJob()

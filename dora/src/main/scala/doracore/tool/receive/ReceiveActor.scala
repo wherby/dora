@@ -4,7 +4,7 @@ import akka.actor.{ActorRef, Props}
 import doracore.base.BaseActor
 import doracore.core.driver.DriverActor.ProxyActorMsg
 import doracore.core.msg.Job.JobResult
-import doracore.tool.receive.ReceiveActor.{FetchResult, ProxyControlMsg, QueryResult}
+import doracore.tool.receive.ReceiveActor.{FetchResult, ProxyControlMsg, QueryResult, ReceiverControlMsg}
 
 /** For doradilla.tool.receive in Doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/4/13
@@ -40,7 +40,7 @@ class ReceiveActor extends BaseActor {
 
   def handleProxyControlMsg(proxyControlMsg: ProxyControlMsg) = {
     proxyActorOpt.map { proxyActor =>
-      proxyActor ! proxyControlMsg.proxyControlMsg
+      proxyActor ! proxyControlMsg
     }
   }
 
@@ -49,11 +49,12 @@ class ReceiveActor extends BaseActor {
   }
 
   override def receive: Receive = {
-    case msg: FetchResult                 => handleFetchMsg()
+    case _: FetchResult                 => handleFetchMsg()
     case jobResult: JobResult             => handleJobResult(jobResult)
     case proxyActorMsg: ProxyActorMsg     => handleProxyActorMsg(proxyActorMsg)
-    case queryResult: QueryResult         => handleQueryResult()
+    case _: QueryResult         => handleQueryResult()
     case proxyControlMsg: ProxyControlMsg => handleProxyControlMsg(proxyControlMsg)
+    case receiverControlMsg:ReceiverControlMsg => self ! receiverControlMsg.controlMsg
   }
 }
 
@@ -63,4 +64,5 @@ object ReceiveActor {
   case class StopProxy()
   case class QueryResult()
   case class ProxyControlMsg(proxyControlMsg: Any)
+  case class ReceiverControlMsg(controlMsg:Any)
 }

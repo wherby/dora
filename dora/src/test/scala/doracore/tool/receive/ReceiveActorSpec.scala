@@ -38,7 +38,7 @@ class ReceiveActorSpec extends ActorTestClass{
       receiveActor ! ProxyActorMsg(probe.ref)
       receiveActor ! ProxyControlMsg("io.github.wherby.doradilla.test")
       probe.expectMsgPF(){
-        case msg=> msg should be("io.github.wherby.doradilla.test")
+        case msg=> msg should be(ProxyControlMsg("io.github.wherby.doradilla.test"))
       }
     }
 

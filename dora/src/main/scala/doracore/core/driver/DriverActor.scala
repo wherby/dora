@@ -43,7 +43,7 @@ class DriverActor(queue: Option[ActorRef] = None, setDefaultFsmActor: Option[Boo
       case Some(_) => jobRequestOrg
       case _       => jobRequestOrg.copy(jobMetaOpt = Some(JobMeta(MyUUID.getUUIDString())))
     }
-    val proxyActor = createProxy(CNaming.timebasedName(jobRequest.taskMsg.operation))
+    val proxyActor = createProxy(CNaming.timebasedName(jobRequest.taskMsg.operation + "ProxyActor"))
     log.info(s"{${jobRequest.jobMetaOpt}} is handled by proxy $proxyActor")
     proxyActor ! jobRequest
     sender() ! ProxyActorMsg(proxyActor)

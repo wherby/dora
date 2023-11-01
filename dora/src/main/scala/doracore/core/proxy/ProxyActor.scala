@@ -7,6 +7,7 @@ import doracore.core.msg.Job.JobStatus.JobStatus
 import doracore.core.msg.Job.{JobEnd, JobRequest, JobResult, JobStatus}
 import doracore.core.proxy.ProxyActor.{ProxyTaskResult, QueryProxy}
 import doracore.core.queue.QueueActor.RemoveJob
+import doracore.tool.receive.ReceiveActor.ProxyControlMsg
 
 /** For doradilla.proxy in doradilla
   * Created by whereby[Tao Zhou](187225577@qq.com) on 2019/3/30
@@ -28,12 +29,14 @@ class ProxyActor(queueActor: ActorRef) extends BaseActor {
   }
 
   def finishTask() = {
+    log.info(s"${requestMsgBk.jobMetaOpt} is finished.")
     fsmActorOpt.map { fsmActor =>
       fsmActor ! JobEnd(requestMsgBk)
     }
   }
 
   def cancelJob()={
+    log.info(s"${requestMsgBk.jobMetaOpt} is cancelled.")
       queueActor ! RemoveJob(requestMsgBk)
       fsmActorOpt.map { fsmActor =>
         fsmActor ! JobEnd(requestMsgBk)
@@ -54,7 +57,7 @@ class ProxyActor(queueActor: ActorRef) extends BaseActor {
       finishTask()
     case JobStatus.Canceled =>
       cancelJob()
-    case query: QueryProxy =>
+    case _: QueryProxy =>
       sender() ! ProxyTaskResult(
         requestMsgBk,
         status,
@@ -64,6 +67,8 @@ class ProxyActor(queueActor: ActorRef) extends BaseActor {
       )
     case translatedActor: TranslatedActor =>
       translatedActorSeq = translatedActorSeq :+ translatedActor.child
+    case proxyControlMsg: ProxyControlMsg=>
+      self ! proxyControlMsg.proxyControlMsg
   }
 }
 

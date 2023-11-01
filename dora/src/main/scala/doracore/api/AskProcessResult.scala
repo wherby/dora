@@ -4,7 +4,7 @@ import akka.actor.{ActorRef, PoisonPill}
 import akka.event.slf4j.Logger
 import akka.util.Timeout
 import doracore.core.msg.Job.{JobRequest, JobResult, JobStatus}
-import doracore.tool.receive.ReceiveActor.{FetchResult, ProxyControlMsg}
+import doracore.tool.receive.ReceiveActor.{FetchResult, ProxyControlMsg, ReceiverControlMsg}
 
 import scala.concurrent.{ExecutionContext, Future}
 import akka.pattern.ask
@@ -40,8 +40,13 @@ trait AskProcessResult {
           result.asInstanceOf[JobResult]
       }
       .map { result =>
-        receiveActor ! ProxyControlMsg(PoisonPill)
-        receiveActor ! PoisonPill
+        Future{
+          Thread.sleep(1000)
+          receiveActor ! ProxyControlMsg(PoisonPill)
+          Thread.sleep(100)
+          receiveActor ! ReceiverControlMsg(PoisonPill)
+        }
+
         result
       }
   }
