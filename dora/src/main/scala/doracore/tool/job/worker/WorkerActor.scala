@@ -18,7 +18,7 @@ class WorkerActor extends BaseActor with ExtractResultTrait with BlockIODispatch
   var cancelableSchedulerOpt: Option[Cancellable] = None
   val tickTime                                    = ConstVars.tickTime
 
-  def cancelScheduler()= {
+  def cancelScheduler() = {
     cancelableSchedulerOpt.map({ cancelableScheduler =>
       cancelableScheduler.cancel()
       cancelableSchedulerOpt = None

@@ -35,12 +35,12 @@ class ProxyActor(queueActor: ActorRef) extends BaseActor {
     }
   }
 
-  def cancelJob()={
+  def cancelJob() = {
     log.info(s"${requestMsgBk.jobMetaOpt} is cancelled.")
-      queueActor ! RemoveJob(requestMsgBk)
-      fsmActorOpt.map { fsmActor =>
-        fsmActor ! JobEnd(requestMsgBk)
-      }
+    queueActor ! RemoveJob(requestMsgBk)
+    fsmActorOpt.map { fsmActor =>
+      fsmActor ! JobEnd(requestMsgBk)
+    }
   }
 
   override def receive: Receive = {
@@ -67,7 +67,7 @@ class ProxyActor(queueActor: ActorRef) extends BaseActor {
       )
     case translatedActor: TranslatedActor =>
       translatedActorSeq = translatedActorSeq :+ translatedActor.child
-    case proxyControlMsg: ProxyControlMsg=>
+    case proxyControlMsg: ProxyControlMsg =>
       self ! proxyControlMsg.proxyControlMsg
   }
 }

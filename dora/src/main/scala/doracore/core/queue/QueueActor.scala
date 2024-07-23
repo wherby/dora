@@ -35,15 +35,15 @@ class QueueActor extends BaseActor with ActorLogging {
 
   def handleRemove(jobRequest: JobRequest) = {
     log.info(s"Job: $jobRequest  which is canceled by user.")
-    val eleToRemove = taskQueue.snap().filter(_.jobMetaOpt ==jobRequest.jobMetaOpt)
+    val eleToRemove = taskQueue.snap().filter(_.jobMetaOpt == jobRequest.jobMetaOpt)
     eleToRemove.headOption match {
-      case Some(eleFind)=>
+      case Some(eleFind) =>
         val removedJob = taskQueue.removeEle(eleFind)
         log.info(s"there is a job to be removed $removedJob")
         removedJob.map { job =>
           job.replyTo ! JobResult(JobStatus.Canceled, s"Job: $job  which is canceled by user.")
         }
-      case _=>
+      case _ =>
     }
   }
 

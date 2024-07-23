@@ -26,7 +26,7 @@ trait ProcessCommandRunner
       processJob: JobMsg,
       timeout: Timeout = ConstVars.longTimeOut,
       priority: Option[Int] = None,
-      metaOpt:Option[JobMeta] =None
+      metaOpt: Option[JobMeta] = None
   )(implicit ex: ExecutionContext): Future[JobResult] = {
     val backendServer = getDefaultBackendServer()
     val resultOpt =
@@ -38,7 +38,8 @@ trait ProcessCommandRunner
           val actorSystem = backendServer.actorSystemOpt.get
           val receiveActor =
             actorSystem.actorOf(ReceiveActor.receiveActorProps, CNaming.timebasedName("Receive"))
-          val processJobRequest = JobRequest(processJob, receiveActor, processTranService, priority,metaOpt)
+          val processJobRequest =
+            JobRequest(processJob, receiveActor, processTranService, priority, metaOpt)
           getProcessCommandFutureResult(processJobRequest, driverService, receiveActor, timeout)
         }
     resultOpt.getOrElse(

@@ -32,12 +32,13 @@ trait NamedJobRunner {
       jobName: String,
       timeout: Timeout = ConstVars.longTimeOut,
       priority: Option[Int] = None,
-      metaOpt:Option[JobMeta] =None
+      metaOpt: Option[JobMeta] = None
   )(implicit ex: ExecutionContext): Future[JobResult] = {
     val jobApi = getNamedJobApi(jobName)
     val receiveActor =
       jobApi.actorSystem.actorOf(ReceiveActor.receiveActorProps, CNaming.timebasedName("Receive"))
-    val processJobRequest = JobRequest(processJob, receiveActor, jobApi.processTranActor, priority,metaOpt)
+    val processJobRequest =
+      JobRequest(processJob, receiveActor, jobApi.processTranActor, priority, metaOpt)
     getProcessCommandFutureResult(processJobRequest, jobApi.defaultDriver, receiveActor, timeout)
   }
 

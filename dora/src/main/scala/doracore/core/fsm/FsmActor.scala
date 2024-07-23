@@ -103,7 +103,7 @@ class FsmActor extends FSM[State, Data] with BaseActor with ActorLogging {
   when(Active) {
     case Event(jobEnd: JobEnd, task: Task) =>
       if (jobEnd.requestMsg.jobMetaOpt == jobMetaOpt) {
-        log.log(Logging.InfoLevel,s"$jobMetaOpt is end")
+        log.log(Logging.InfoLevel, s"$jobMetaOpt is end")
         goto(Idle) using (Uninitialized)
       } else {
         stay()

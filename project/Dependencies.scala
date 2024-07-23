@@ -11,7 +11,7 @@ object Dependencies {
   lazy val scala213 = "2.13.10"
   lazy val supportedScalaVersion = List(scala212, scala213)
 
-  lazy val logback = "1.3.4"
+  lazy val logback = "1.5.6"
   lazy val scalaTest = "3.1.0"
   lazy val playJson = "2.9.3"
   lazy val javaDriverCore = "4.15.0"
