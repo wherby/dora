@@ -1,3 +1,3 @@
 #! /bin/sh
 
-gpg --pinentry-mode loopback $@
+gpg --pinentry-mode --always-trust loopback $@
