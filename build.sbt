@@ -7,6 +7,8 @@ import scala.sys.process.Process
 //https://github.com/sbt/sbt-pgp/issues/173
 //Global / gpgCommand := (baseDirectory.value / "gpg.sh").getAbsolutePath
 
+// https://github.com/sbt/sbt-github-actions
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("11"))
 lazy val dora = (project in file("dora"))
   .settings(commonSettings: _*)
   .enablePlugins(JavaAppPackaging)
