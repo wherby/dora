@@ -18,5 +18,6 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0") // "2.4.0" is just sbt 
 addSbtPlugin("com.github.sbt" % "sbt-github-actions"  % "0.24.0")
 // https://github.com/sbt/sbt-ci-release
 //addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.11")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.12")
 
 //addDependencyTreePlugin
