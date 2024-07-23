@@ -87,3 +87,10 @@ model contains 69 documentable templates
 [error] Total time: 26 s, completed Jul 23, 2024, 6:49:25 AM
 
 
+## Issue
+
+如果PGP的key过期需要重新生成的话，看 https://github.com/sbt/sbt-ci-release 重新生成的key 和password更新需要在图里下方secrets and variables 
+section 更新，不能在 Environment Secret 更新，上面的错误就是更新了Environment Secret，但是没有作用
+
+![Update secret](pic/updatesecret.png)
+
