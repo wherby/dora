@@ -11,5 +11,7 @@ Dora is a better job manage system with minimum dependence.
 
 ## The Licence 
 
-From 2024/07/25 the license is changed to GPL-V3, any non-commercial usage of the lib MUST apply the latest license.
-Commercial user MUST have additional agreement from author before use.
+From 2024/07/25 the license is changed to GPL-V3, Non-commercial utilization of the library mandates compliance with the current license terms.
+Commercial users require explicit author authorization before using the library.
+
+Adherence to the most recent version of this license is required for all library implementations
