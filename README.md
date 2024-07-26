@@ -17,3 +17,8 @@ Adherence to the most recent license is required for all library implementations
 
 Adherence to the most recent version of this license is required for all library implementations.
 
+## Terms of Use for Commercial Exploitation of Library Content
+
+Unauthorized Commercial Use of Library Content
+
+Any commercial use of library content without explicit written consent from the author constitutes a breach of copyright. Such unauthorized use obligates the user to contribute 1% of the commercial income derived from the use of the library to the author.
