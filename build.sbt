@@ -73,7 +73,8 @@ inThisBuild(
     organization := "org.dora",
     homepage := Some(url("https://github.com/wherby/dora")),
     licenses := List(
-      "Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
+      "AGPL-V3" -> url("https://www.gnu.org/licenses/agpl-3.0.txt"),
+      "Commercial-License"->url("https://github.com/wherby/dora/tree/master/docs/license/CommercialLicense.md")
     ),
     developers := List(
       Developer(
