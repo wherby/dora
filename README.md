@@ -19,6 +19,13 @@ Adherence to the most recent version of this license is required for all library
 
 ## Terms of Use for Commercial Exploitation of Library Content
 
-Unauthorized Commercial Use of Library Content
+### Unauthorized Commercial Use of Library Content
 
-Any commercial use of library content without explicit written consent from the author constitutes a breach of copyright. Such unauthorized use obligates the user to contribute 1% of the commercial income derived from the use of the library to the author.
+Any commercial use of library content without explicit written consent from the author constitutes a breach of copyright.
+Such unauthorized use obligates the user to contribute 1% of the commercial income derived from the use of the library to the author.
+
+
+### Grace Period for License Transition
+
+Existing commercial users of previous library versions have a three-month grace period to transition. 
+After this period, continued commercial use requires adherence to the terms of the latest license.
