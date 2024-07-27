@@ -2,6 +2,11 @@
 
 This is the introduction for dora library.
 
+## Differences for [doradilla](https://github.com/wherby/doradilla)
+
+1. Remove cluster support
+2. remove timeout behavior
+
 @@toc { depth=1 }
 
 
