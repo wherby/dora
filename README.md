@@ -31,5 +31,7 @@ After this period, users must either cease commercial use or comply with the lat
 
 The author is committed to providing the highest level of security for commercial users. To ensure timely security updates, which often require significant development resources, commercial users are encouraged to register their usage. This information aids in effective resource allocation and prioritization of security enhancements. 
 
+Commercial use of the library without registration may result in delayed or limited access to critical security updates. Unregistered commercial use is prohibited.
+
 More detail see the [link](https://github.com/wherby/dora/blob/master/docs/license/whyCommercial.md)
 
